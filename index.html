@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zap Gastos: anote seus gastos conversando no WhatsApp</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--soft:#FFF4EE;--ink:#1B1411;--muted:#6B5E57;--line:#F1E3DA;--o:#F04E0F;--on:#fff;--me:#FFE3D4;--bot:#fff;--display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;--body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background-color:var(--bg);background-image:linear-gradient(rgba(27,20,17,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(27,20,17,.055) 1px,transparent 1px);background-size:96px 96px;background-position:center top;color:var(--ink);font:16px/1.55 var(--body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+h1,h2,h3{font-family:var(--display);line-height:1.08;margin:0;letter-spacing:-.025em}
+h1{font-size:clamp(2.3rem,6.4vw,4rem);font-weight:800}
+h2{font-size:clamp(1.7rem,4vw,2.5rem);font-weight:800;max-width:20ch}
+p{margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:rgba(255,255,255,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:12px}
+.logo{font:800 1.25rem var(--display);color:var(--o)}
+nav{display:flex;gap:20px;align-items:center;font-size:.95rem}
+nav a{color:var(--muted);text-decoration:none}
+.btn{display:inline-block;background:var(--o);color:var(--on);font-weight:800;padding:12px 22px;border-radius:10px;text-decoration:none;border:0;cursor:pointer;font-size:1rem}
+.btn.off{opacity:.6;pointer-events:none}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.hero{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;padding:56px 0 64px}
+.lead{font-size:1.15rem;color:var(--muted);margin:18px 0 26px;max-width:44ch}
+.fine{font-size:.88rem;color:var(--muted);margin-top:14px}
+.app{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);overflow:hidden;box-shadow:0 20px 50px rgba(240,78,15,.14)}
+.app-top{padding:12px 16px;font-weight:800;color:var(--on);background:var(--o)}
+#log{height:300px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:88%;padding:9px 12px;border-radius:12px;white-space:pre-line;font-size:.94rem;animation:pop .2s ease-out}
+.msg.me{align-self:flex-end;background:var(--me)}
+.msg.bot{align-self:flex-start;background:var(--bot);border:1px solid var(--line)}
+.typing{color:var(--muted)}
+@keyframes pop{from{transform:translateY(6px);opacity:0}to{transform:none;opacity:1}}
+.prompts{display:flex;flex-direction:column;gap:6px;padding:0 14px 10px}
+.prompts button{text-align:left;background:var(--soft);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:.88rem;cursor:pointer}
+.prompts button:hover{border-color:var(--o)}
+.send{display:flex;gap:8px;padding:0 14px 14px}
+.send input{flex:1;min-width:0;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:11px 14px;font-size:1rem}
+.send .btn{padding:11px 18px}
+section{padding:64px 0;border-top:1px solid var(--line)}
+section>.wrap>p.sub{color:var(--muted);margin:12px 0 30px;max-width:56ch}
+.pain{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:28px}
+.pain p{font:700 1.25rem/1.25 var(--display);padding-top:14px;border-top:3px solid var(--o)}
+.layers{display:grid;grid-template-columns:1fr 1.1fr;gap:28px;align-items:stretch}
+.layer-list{display:flex;flex-direction:column;gap:8px}
+.layer-list button{text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:16px 18px;border-radius:10px;font:800 1.05rem var(--display);cursor:pointer}
+.layer-list button[aria-selected="true"]{background:var(--o);color:var(--on);border-color:var(--o)}
+.layer-info{background:var(--o);color:var(--on);border-radius:14px;padding:26px}
+.layer-info h3{font-size:1.4rem;margin-bottom:10px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.tabs button{border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:9px 16px;border-radius:999px;cursor:pointer;font-size:.95rem}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab-body{max-width:62ch;font-size:1.1rem}
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fields label{display:flex;flex-direction:column;gap:4px;font-size:.88rem;color:var(--muted)}
+.fields input{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:10px 12px;font-size:1rem;width:100%}
+.fields .full{grid-column:1/-1}
+.panel{background:rgba(255,244,238,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:14px;padding:22px}
+.big{font:800 2.2rem var(--display)}
+.dots{display:flex;flex-wrap:wrap;gap:4px;margin:14px 0}
+.dots i{width:12px;height:12px;border-radius:50%;background:var(--line);display:block}
+.dots i.f{background:var(--o)}
+.dots i.n{background:var(--muted);opacity:.45}
+.legend{font-size:.85rem;color:var(--muted)}
+.spark{position:absolute;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.9);border:1px solid var(--line);display:grid;place-items:center;pointer-events:none}
+.spark::after{content:"";width:14px;height:14px;background:var(--o);clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)}
+.px{position:absolute;width:14px;height:14px;background:rgba(27,20,17,.1);pointer-events:none}
+.tag{display:none;position:absolute;font:.72rem ui-monospace,Menlo,monospace;color:rgba(27,20,17,.35);pointer-events:none}
+@media (min-width:821px){.tag{display:block}}
+.leak{margin-top:14px;padding:12px 14px;border-left:4px solid var(--o);background:var(--bg);border-radius:0 8px 8px 0}
+.trust{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.trust div{border:1px solid var(--line);border-radius:12px;padding:18px}
+.trust b{display:block;font:800 1.1rem var(--display);margin-bottom:4px}
+.trust span{font-size:.82rem;font-weight:800;color:var(--o)}
+.trust span.todo{color:var(--muted)}
+details{border-bottom:1px solid var(--line);padding:16px 0}
+summary{cursor:pointer;font-weight:800}
+details p{color:var(--muted);margin-top:8px;max-width:64ch}
+footer{padding:28px 0 40px;color:var(--on);background:var(--o);font-size:.88rem}
+section.band{background:var(--o);color:var(--on);border-top:0}
+section.band>.wrap>p.sub{color:var(--on)}
+.band .trust div{background:#fff;color:var(--ink);border-color:#fff}
+@media (max-width:820px){.hero,.calc,.layers{grid-template-columns:1fr}.pain,.trust{grid-template-columns:1fr}nav a{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><span class="logo">Zap Gastos</span><nav><a href="#como">Como funciona</a><a href="#afiliados">Afiliados</a><a href="#calculadora">Calculadora</a><a href="#perguntas">Perguntas</a><a class="btn cta" href="#perguntas">Quero usar</a></nav></div></header>
+<main>
+<div class="wrap hero">
+ <span class="spark" aria-hidden="true" style="left:-4px;top:34px"></span><span class="spark" aria-hidden="true" style="right:-4px;top:34px"></span><span class="px" aria-hidden="true" style="right:60px;top:18px"></span><span class="px" aria-hidden="true" style="right:84px;top:42px"></span><span class="px" aria-hidden="true" style="left:120px;bottom:22px"></span><span class="tag" aria-hidden="true" style="left:12px;top:8px">[ gasto anotado ]</span><span class="tag" aria-hidden="true" style="right:12px;bottom:8px">[ relatório ok ]</span>
+ <div>
+  <h1>Seus gastos, anotados por conversa.</h1>
+  <p class="lead">Mande “sorvete 40 débito” no WhatsApp. Peça o relatório quando quiser e veja para onde o dinheiro foi. Sem ligar ao seu banco.</p>
+  <a class="btn cta" href="#perguntas">Quero usar</a>
+  <p class="fine">Teste ao lado com dados de exemplo. Nada do que você digita é guardado.</p>
+ </div>
+ <div class="app" aria-label="Simulador de conversa">
+  <div class="app-top">Zap Gastos</div>
+  <div id="log" role="log" aria-live="polite"></div>
+  <div class="prompts" id="prompts"></div>
+  <form class="send" id="form"><input id="txt" autocomplete="off" aria-label="Mensagem" placeholder="Pergunte ou anote: mercado 120 pix"><button class="btn" type="submit">Enviar</button></form>
+ </div>
+</div>
+
+<section><div class="wrap">
+ <h2>Anotar gasto costuma ser a parte chata.</h2>
+ <div class="pain">
+  <p>Planilha pede abrir o arquivo, achar a linha e preencher cinco colunas.</p>
+  <p>Aplicativo de banco só mostra o que passou no cartão, não o que você pagou em dinheiro.</p>
+  <p>No fim do mês, a conta não fecha e ninguém sabe para onde foi.</p>
+ </div>
+</div></section>
+
+<section id="como"><div class="wrap">
+ <h2>Do recado ao relatório, em quatro camadas.</h2>
+ <p class="sub">Toque em cada camada para ver o que ela faz.</p>
+ <div class="layers">
+  <div class="layer-list" id="layerList" role="tablist"></div>
+  <div class="layer-info" id="layerInfo" aria-live="polite"></div>
+ </div>
+</div></section>
+
+<section><div class="wrap">
+ <h2>O que ele faz em cada etapa.</h2>
+ <p class="sub">Tudo acontece na mesma conversa.</p>
+ <div class="tabs" id="tabs" role="tablist"></div>
+ <p class="tab-body" id="tabBody"></p>
+</div></section>
+
+<section id="afiliados"><div class="wrap">
+ <h2>Afiliados e embaixadores.</h2>
+ <p class="sub">Programa em construção. Os valores abaixo são uma simulação ilustrativa, não uma oferta: regras e porcentagens serão definidas antes da abertura.</p>
+ <div class="pain">
+  <p>Você recebe um link e um código pessoais, e o da sua faculdade ou turma.</p>
+  <p>Seus amigos assinam usando o código. Só conta assinatura paga e confirmada.</p>
+  <p>Você acompanha indicações e ganhos em um painel simples. Um nível só: sem comissão por recrutar recrutadores.</p>
+ </div>
+ <div class="calc" style="margin-top:34px">
+  <div class="fields">
+   <label class="full">Preço da assinatura por mês (R$)<input id="a-preco" type="number" inputmode="decimal" min="0" value="19.9"></label>
+   <label>Comissão (%)<input id="a-com" type="number" inputmode="decimal" min="0" max="100" value="30"></label>
+   <label>Indicados que assinam<input id="a-n" type="number" inputmode="numeric" min="0" value="10"></label>
+   <label class="full">Meses que cada indicado fica<input id="a-m" type="number" inputmode="numeric" min="1" value="3"></label>
+  </div>
+  <div class="panel">
+   <div class="big" id="a-total">R$ 0,00</div>
+   <p id="a-txt" style="color:var(--muted)"></p>
+   <div class="leak">Simulação ilustrativa. Valores, forma de pagamento e impostos sobre comissão ainda serão definidos.</div>
+  </div>
+ </div>
+</div></section>
+
+<section><div class="wrap">
+ <h2>Dois jeitos de usar.</h2>
+ <p class="sub">Você escolhe quanto quer compartilhar.</p>
+ <div class="trust">
+  <div><b>Modo Manual</b><span>Padrão, já no protótipo</span><p class="legend">Você anota o que gasta. Sem ligar ao banco, sem senha e sem cartão.</p></div>
+  <div><b>Modo Conectado</b><span class="todo">Em planejamento, opcional</span><p class="legend">Para quem prefere não digitar: ver saldo e gastos automaticamente, só leitura, com autorização sua e podendo revogar. Ainda não existe.</p></div>
+ </div>
+</div></section>
+
+<section><div class="wrap">
+ <h2>Feito para o ritmo da faculdade.</h2>
+ <p class="sub">Ideias que planejamos testar com estudantes antes de lançar.</p>
+ <div class="trust">
+  <div><b>Indique um amigo</b><span class="todo">Em planejamento</span><p class="legend">Cada amigo que assinar rende um crédito para você.</p></div>
+  <div><b>Embaixador de faculdade</b><span class="todo">Em planejamento</span><p class="legend">Comissão por assinante pago, com o código da sua turma ou atlética.</p></div>
+  <div><b>Desafio entre turmas</b><span class="todo">Em planejamento</span><p class="legend">Qual curso fecha mais meses no azul? Ranking sem expor os gastos de ninguém.</p></div>
+  <div><b>Plano estudante</b><span class="todo">Em planejamento</span><p class="legend">Preço menor com verificação por e-mail da faculdade e recursos como dividir a conta da república.</p></div>
+ </div>
+</div></section>
+
+<section id="calculadora"><div class="wrap">
+ <h2>Onde seu dinheiro vaza?</h2>
+ <p class="sub">Informe quanto você gasta por mês, mais ou menos. Cada ponto vale R$ 100. A conta é feita no seu navegador.</p>
+ <div class="calc">
+  <div class="fields" id="fields"></div>
+  <div class="panel">
+   <div class="big" id="total">R$ 0,00</div>
+   <p id="share" style="color:var(--muted)"></p>
+   <div class="dots" id="dots" aria-hidden="true"></div>
+   <p class="legend">Laranja: gastos flexíveis (delivery, lazer, compras, assinaturas). Cinza: o restante.</p>
+   <div class="leak" id="leak"></div>
+   <p class="legend" style="margin-top:12px">Estimativa com os valores digitados. Não é recomendação financeira.</p>
+  </div>
+ </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+ <h2>Pronto para abrir? Ainda não, e dizemos o que falta.</h2>
+ <p class="sub">Compromissos de privacidade e o estado de cada um.</p>
+ <div class="trust">
+  <div><b>Sem ligação ao banco por padrão</b><span>Pronto no protótipo</span><p class="legend">No modo padrão você só anota. Qualquer conexão futura será opcional e só com a sua autorização.</p></div>
+  <div><b>Apagar tudo a qualquer momento</b><span>Pronto no protótipo</span><p class="legend">Um comando exclui seus gastos e seu cadastro.</p></div>
+  <div><b>Contas feitas pelo sistema</b><span>Pronto no protótipo</span><p class="legend">A IA entende a frase; somas e comparações são cálculo, não palpite.</p></div>
+  <div><b>Política de privacidade e termos</b><span class="todo">A fazer antes de abrir</span><p class="legend">Revisão com advogado e adequação à LGPD.</p></div>
+ </div>
+</div></section>
+
+<section id="perguntas"><div class="wrap">
+ <h2>Perguntas frequentes.</h2>
+ <div style="margin-top:22px">
+  <details><summary>O serviço vê meu banco?</summary><p>No modo padrão, não. Você só anota o que gastou e nunca pedimos senha nem número de cartão. Um modo conectado opcional está em planejamento e só funcionaria com a sua autorização.</p></details>
+  <details><summary>Como apago meus dados?</summary><p>Digite “apagar meus dados” e confirme. Seus gastos e seu cadastro são excluídos.</p></details>
+  <details><summary>A IA faz as contas?</summary><p>A IA entende a sua mensagem. As somas e comparações são feitas pelo sistema, para o relatório sair certo.</p></details>
+  <details><summary>Posso pedir conselho de investimento?</summary><p>Não. O serviço cuida dos seus gastos: anotar, mostrar para onde foi o dinheiro e sugerir como gastar menos.</p></details>
+  <details><summary>Como vai funcionar a indicação de amigos?</summary><p>Ainda estamos definindo. A ideia é um crédito para quem indica quando o amigo assinar. Os detalhes serão divulgados na abertura.</p></details>
+  <details><summary>Quanto custa e quando abre?</summary><p>Os planos e a data serão divulgados na abertura. Esta página é uma prévia e não guarda nada do que você digita.</p></details>
+ </div>
+</div></section>
+</main>
+<footer><div class="wrap">Prévia do Zap Gastos. Os dados do simulador são de exemplo, e as respostas usam regras simples; no serviço real, a IA entende frases livres.</div></footer>
+
+<script>
+const WA_NUMBER = ""; // número com DDI e DDD, ex.: 5511999999999
+const $ = s => document.querySelector(s);
+const brl = n => n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+document.querySelectorAll(".cta").forEach(b=>{
+  if(WA_NUMBER){b.href="https://wa.me/"+WA_NUMBER+"?text="+encodeURIComponent("Oi!");}
+  else{b.textContent="Abertura em breve";b.classList.add("off");b.removeAttribute("href");}
+});
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* Simulador */
+const CATS=[["Mercado",/mercado|super|feira/],["Delivery",/ifood|delivery|rappi|restaurante/],["Transporte",/uber|99|gasolina|combust|ônibus|onibus/],["Lazer",/cinema|show|jogo|festa/],["Saúde",/farm|remédio|remedio|consulta/],["Compras",/camiseta|tênis|tenis|roupa/],["Assinaturas",/netflix|spotify|assinatura/],["Alimentação",/sorvete|lanche|almoço|almoco|café|cafe|pizza|padaria/]];
+const PAY=[["Pix",/pix/],["Débito",/d[ée]bito/],["Crédito",/cr[ée]dito/],["Dinheiro",/dinheiro/]];
+const FLEX=["Delivery","Lazer","Compras","Assinaturas"];
+const ex=[["Mercado",187.45],["Mercado",63.2],["Mercado",224.8],["Delivery",68.5],["Delivery",79.9],["Delivery",112],["Delivery",74.5],["Transporte",150],["Transporte",23.9],["Lazer",56],["Saúde",42.3],["Compras",89.9],["Alimentação",49.9]].map(x=>({cat:x[0],v:x[1]}));
+const log=$("#log");
+function add(role,text,cls){const d=document.createElement("div");d.className="msg "+role+(cls?" "+cls:"");d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight;return d;}
+const sum=a=>a.reduce((s,e)=>s+e.v,0);
+function rank(){const by={};ex.forEach(e=>by[e.cat]=(by[e.cat]||0)+e.v);return Object.entries(by).sort((a,b)=>b[1]-a[1]);}
+function answer(txt){
+  const t=txt.toLowerCase(), tot=sum(ex), r=rank();
+  const cat=CATS.find(c=>c[1].test(t+" "));
+  if(/essencia|opcion/.test(t)){
+    const ESS=["Mercado","Transporte","Saúde","Moradia","Educação"];
+    const e=sum(ex.filter(x=>ESS.includes(x.cat))),o=tot-e;
+    const top=r.filter(x=>!ESS.includes(x[0])).slice(0,2).map(x=>x[0]+": "+brl(x[1])).join("\n");
+    return "Essenciais: "+brl(e)+" ("+Math.round(e/tot*100)+"%) · Opcionais: "+brl(o)+" ("+Math.round(o/tot*100)+"%)\n\nMaiores opcionais:\n"+top+"\n\nClassifico sozinho: aluguel, luz, água e mercado são essenciais. Se errei, é só corrigir.";
+  }
+  if(/comprar|viagem|viajar|juntar/.test(t)||(/semana que vem|m[eê]s que vem|daqui/.test(t)&&/\d/.test(t))){
+    const t2=t.replace(/\d+\s*(semana|m[eê]s|mes|dia)\w*\b(?!\s*que)/,"");
+    const vm=t2.match(/(\d+(?:[.,]\d+)?)/);
+    if(!vm)return "Quanto custa? Exemplo: quero comprar uma bolsa de 600 em 1 mês";
+    const val=parseFloat(vm[1].replace(",","."));
+    let weeks=4;
+    const wm=t.match(/(\d+)\s*(semana|m[eê]s|mes|dia)\w*\b(?!\s*que)/);
+    if(wm){const k=+wm[1];weeks=/semana/.test(wm[2])?k:/dia/.test(wm[2])?k/7:k*4.3;}else if(/semana que vem/.test(t))weeks=1;
+    weeks=Math.max(1,Math.round(weeks));
+    let left=val/weeks,out="Meta: "+brl(val)+" em "+weeks+" semana(s): cerca de "+brl(val/weeks)+" por semana.\n\nPelo seu histórico (dados de exemplo):\n";
+    r.filter(x=>FLEX.includes(x[0])).forEach(x=>{const avg=x[1]/4,cut=Math.floor(avg*.35);if(cut>=5&&left>0){const c=Math.min(cut,left);left-=c;out+="- "+x[0]+": você gasta cerca de "+brl(avg)+" por semana. Deixe de gastar "+brl(c)+".\n";}});
+    if(left>0.5)out+="- Separe mais "+brl(left)+" por semana da sua renda, em um lugar à parte.\n";
+    return out+"Guarde à parte tudo o que deixar de gastar.";
+  }
+  if(/onde|mais gastei|ranking/.test(t)){let o="Onde você mais gastou:\n";r.slice(0,3).forEach((x,i)=>o+=(i+1)+". "+x[0]+": "+brl(x[1])+" ("+Math.round(x[1]/tot*100)+"%)\n");return o+"Total: "+brl(tot);}
+  if(/relat|resumo|semana|m[eê]s/.test(t))return "Relatório (dados de exemplo)\nTotal: "+brl(tot)+" em "+ex.length+" gastos\nMaior categoria: "+r[0][0]+" ("+brl(r[0][1])+")\nCategorias: "+r.length;
+  if(/menos|dica|economiz/.test(t)){const f=r.find(x=>FLEX.includes(x[0]));return f?f[0]+" é o seu maior gasto flexível: "+brl(f[1])+". Que tal definir um limite semanal e comparar no próximo relatório?":"Continue anotando: com mais dias de dados, as dicas ficam mais precisas.";}
+  if(cat&&/quanto|gast/.test(t)&&!/\d/.test(t)){const v=sum(ex.filter(e=>e.cat===cat[0]));return cat[0]+": "+brl(v)+" em "+ex.filter(e=>e.cat===cat[0]).length+" gastos.";}
+  const m=txt.match(/(\d+(?:[.,]\d{1,2})?)/);
+  if(!m)return "Não entendi. Tente: mercado 120 pix, ou pergunte: onde gastei mais?";
+  const c=(cat||["Outros"])[0],p=(PAY.find(x=>x[1].test(t))||[null])[0],v=parseFloat(m[1].replace(",","."));
+  ex.push({cat:c,v});return "Anotado: "+brl(v)+" · "+c+" · "+(p||"forma não informada")+"\nTotal do mês: "+brl(sum(ex))+".";
+}
+function say(txt){add("me",txt);const ty=add("bot","digitando…","typing");setTimeout(()=>{ty.remove();add("bot",answer(txt));},reduce?0:550);}
+$("#form").addEventListener("submit",e=>{e.preventDefault();const v=$("#txt").value.trim();if(!v)return;$("#txt").value="";say(v);});
+["Onde gastei mais este mês?","O que é essencial e o que é opcional?","Quanto gastei com delivery?","Como posso gastar menos?","Quero comprar uma bolsa de 600 em 1 mês","sorvete 40 débito"].forEach(p=>{const b=document.createElement("button");b.type="button";b.textContent=p;b.onclick=()=>say(p);$("#prompts").appendChild(b);});
+add("bot","Oi! Já tenho alguns gastos de exemplo anotados. Escolha uma pergunta ou anote o seu.");
+
+/* Camadas */
+const L=[["Você","Você manda uma mensagem do jeito que falaria: “sorvete 40 débito” ou “quanto gastei com uber?”. Sem formulário e sem abrir arquivo."],["Entendimento","A IA lê a frase e separa valor, categoria, forma de pagamento e data. Se faltar o valor, ela pergunta em vez de chutar."],["Cálculo","O sistema grava e soma. Totais, rankings e comparações saem de cálculo exato, nunca de estimativa da IA."],["Relatório e dicas","Você recebe o resumo, o ranking de categorias e dicas com base no que gastou de verdade."]];
+function layer(i){[...$("#layerList").children].forEach((b,j)=>b.setAttribute("aria-selected",i===j));$("#layerInfo").innerHTML="";const h=document.createElement("h3");h.textContent=L[i][0];const p=document.createElement("p");p.textContent=L[i][1];$("#layerInfo").append(h,p);}
+L.forEach((l,i)=>{const b=document.createElement("button");b.type="button";b.role="tab";b.textContent=l[0];b.onclick=()=>layer(i);b.onmouseenter=()=>layer(i);$("#layerList").appendChild(b);});layer(0);
+
+/* Etapas */
+const T=[["Anotar","Mande um gasto ou vários na mesma mensagem: “mercado 120 pix, uber 18 crédito”. A resposta confirma o que foi entendido."],["Corrigir","Errou a categoria? Responda “corrige lazer”. Quer voltar atrás? “desfazer” apaga o último gasto."],["Metas","Defina um limite por categoria, como “meta mercado 800”. O aviso chega quando você passa de 80% e quando estoura."],["Relatórios","Peça “hoje”, “semana”, “mês” ou uma pergunta como “quanto gastei com delivery?” sempre que quiser."],["Dicas","Sugestões simples para gastar menos, baseadas nos seus números. Nunca recomendamos investimentos."],["Essencial ou opcional","Sem configurar nada: aluguel, luz, água, mercado e remédio contam como essenciais; delivery, streaming e lazer, como opcionais. Se errarmos, você corrige com uma frase e o serviço aprende."],["Planejar compra","Diga “quero comprar uma bolsa em um mês” ou “viagem daqui 3 meses”. O serviço calcula quanto juntar por semana ou por mês e, pelo seu histórico, mostra onde cortar (como delivery) e quanto separar."],["Privacidade","No modo padrão, nada de ligar ao banco, senha ou cartão. “Apagar meus dados” exclui tudo."]];
+function tab(i){[...$("#tabs").children].forEach((b,j)=>b.setAttribute("aria-selected",i===j));$("#tabBody").textContent=T[i][1];}
+T.forEach((t,i)=>{const b=document.createElement("button");b.type="button";b.role="tab";b.textContent=t[0];b.onclick=()=>tab(i);$("#tabs").appendChild(b);});tab(0);
+
+/* Calculadora */
+const F=[["renda","Renda mensal",4500,1],["Mercado","Mercado",800],["Delivery","Delivery e restaurantes",350],["Transporte","Transporte",300],["Lazer","Lazer",200],["Compras","Compras",250],["Assinaturas","Assinaturas",120],["Outros","Outros",150]];
+const inp={};
+F.forEach(f=>{const l=document.createElement("label");if(f[3])l.className="full";l.textContent=f[1]+" (R$)";const i=document.createElement("input");i.type="number";i.inputMode="decimal";i.min="0";i.value=f[2];i.addEventListener("input",calc);l.appendChild(i);$("#fields").appendChild(l);inp[f[0]]=i;});
+function calc(){
+  const val=k=>Math.max(0,parseFloat(inp[k].value)||0),renda=val("renda");
+  const rows=F.slice(1).map(f=>[f[1],val(f[0]),f[0]]);
+  const tot=rows.reduce((a,r)=>a+r[1],0),flex=rows.filter(r=>FLEX.includes(r[2])).sort((a,b)=>b[1]-a[1])[0];
+  $("#total").textContent=brl(tot);
+  $("#share").textContent=renda>0?"Isso é "+Math.round(tot/renda*100)+"% da sua renda. Sobram "+brl(renda-tot)+" por mês.":"Informe a renda para ver quanto sobra.";
+  const d=$("#dots");d.textContent="";
+  rows.forEach(r=>{const n=Math.round(r[1]/100);for(let i=0;i<n&&d.children.length<160;i++){const e=document.createElement("i");e.className=FLEX.includes(r[2])?"f":"n";d.appendChild(e);}});
+  $("#leak").textContent=flex&&flex[1]>0?"Maior gasto flexível: "+flex[0]+", com "+brl(flex[1])+" por mês. Reduzir 20% seria "+brl(flex[1]*.2)+" a mais por mês, ou "+brl(flex[1]*.2*12)+" por ano (exemplo).":"Preencha seus gastos para ver onde há espaço para economizar.";
+}
+function aff(){
+  const g=id=>Math.max(0,parseFloat(document.getElementById(id).value)||0);
+  const p=g("a-preco"),c=g("a-com")/100,n=g("a-n"),m=Math.max(1,g("a-m"));
+  const tot=p*c*n*m;
+  document.getElementById("a-total").textContent=brl(tot);
+  document.getElementById("a-txt").textContent="Com "+n+" indicados que ficam "+m+" meses, a comissão seria de "+brl(p*c)+" por indicado a cada mês.";
+}
+["a-preco","a-com","a-n","a-m"].forEach(id=>document.getElementById(id).addEventListener("input",aff));aff();
+calc();
+</script>
+</body>
+</html>
