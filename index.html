@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ZAP Cash</title>
+<meta name="description" content="Organização e planejamento financeiro direto no WhatsApp: anote gastos, veja pra onde vai o dinheiro, planeje compras e lembre das parcelas. Sem planilha e sem ligar ao seu banco.">
+<meta name="theme-color" content="#F04E0F">
+<!-- Prévia do link no WhatsApp/Instagram. Quando houver domínio, troque og:url e use o endereço COMPLETO na og:image
+     (ex.: https://zapcash.com.br/og.png): o WhatsApp não aceita caminho relativo. -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="ZAP Cash">
+<meta property="og:title" content="ZAP Cash: converse com o seu dinheiro">
+<meta property="og:description" content="Tudo o que dava trabalho numa planilha, agora é só mandar mensagem no WhatsApp.">
+<meta property="og:image" content="og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://SEU-DOMINIO.com.br/">
+<meta name="twitter:card" content="summary_large_image">
+<script>document.documentElement.classList.add("js");try{if(!sessionStorage.getItem("zc-intro")&&localStorage.getItem("zapcash-paused")!=="1"&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("intro")}catch(e){}</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23F04E0F' d='M18 6h28a14 14 0 0 1 14 14v18a14 14 0 0 1-14 14H24l-12 9v-9.6A14 14 0 0 1 4 38V20A14 14 0 0 1 18 6z'/%3E%3Cpath fill='%23fff' d='M37.5 12 20 33.5h11.2L27 47l18-22.5H33.6z'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="icon" type="image/png" sizes="180x180" href="icon-180.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--soft:#FFF4EE;--ink:#1B1411;--muted:#6B5E57;--line:#F1E3DA;--o:#F04E0F;--on:#fff;--me:#FFE3D4;--bot:#fff;--display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;--body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background-color:var(--bg);background-image:linear-gradient(rgba(27,20,17,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(27,20,17,.055) 1px,transparent 1px);background-size:96px 96px;background-position:center top;color:var(--ink);font:16px/1.55 var(--body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+h1,h2,h3{font-family:var(--display);line-height:1.08;margin:0;letter-spacing:-.025em}
+h1{font-size:clamp(2.3rem,6.4vw,4rem);font-weight:800}
+h2{font-size:clamp(1.7rem,4vw,2.5rem);font-weight:800;max-width:20ch}
+p{margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:rgba(255,255,255,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:12px}
+.logo{display:inline-flex;align-items:center;gap:8px;font:800 1.25rem var(--display);color:var(--o);text-decoration:none}.logo b{color:var(--ink);font-weight:800}
+nav{display:flex;gap:20px;align-items:center;font-size:.95rem}
+nav a{color:var(--muted);text-decoration:none}
+.btn{display:inline-block;background:var(--o);color:var(--on);font-weight:800;padding:12px 22px;border-radius:10px;text-decoration:none;border:0;cursor:pointer;font-size:1rem}
+.btn.off{opacity:.6;pointer-events:none}
+[hidden]{display:none!important}
+.vs{margin-top:8px;border-top:1px solid var(--line)}
+.vs-head,.vs-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) minmax(0,1.5fr);gap:16px;padding:14px 4px;border-bottom:1px solid var(--line);align-items:baseline}
+.vs-head{font:800 .78rem var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.vs-head span:last-child{color:var(--o)}
+.vs-row b{font-family:var(--display);font-size:1.05rem}
+.vs-row .old{color:var(--muted)}
+.vs-row .new{font-weight:600}
+.vs-row q{quotes:none;background:var(--me);border-radius:10px 10px 3px 10px;padding:2px 8px;white-space:nowrap;font-weight:500}
+.vs-row:hover{background:var(--soft)}
+@media (max-width:640px){
+ .vs-head{display:none}
+ .vs-row{grid-template-columns:1fr;gap:4px;padding:14px 0}
+ .vs-row .old::before{content:"Na planilha: ";font-weight:700}
+ .vs-row .new::before{content:"No ZAP Cash: ";font-weight:800;color:var(--o)}
+ .vs-row q{white-space:normal}
+}
+.who{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:8px}
+.who article{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.9);padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.who h3{font-size:1.12rem;text-wrap:balance}
+.who p{color:var(--muted);font-size:.95rem}
+.who .ex{margin-top:auto;font-size:.85rem;color:var(--ink);background:var(--me);border-radius:12px 12px 4px 12px;padding:7px 10px;align-self:flex-start}
+.who a.more{margin-top:auto;color:var(--o);font-weight:800;text-decoration:none}
+.learn{margin-top:22px;display:flex;gap:12px;align-items:flex-start;border-left:4px solid var(--o);background:var(--bg);border-radius:0 10px 10px 0;padding:12px 14px;max-width:70ch}
+@media (max-width:980px){.who{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.who{grid-template-columns:1fr}}
+section.biz{background:linear-gradient(180deg,var(--soft),rgba(255,244,238,0))}
+section.biz h2{max-width:none}
+.soon{display:inline-block;background:var(--ink);color:var(--bg);font:800 .75rem var(--body);letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:999px;margin-bottom:14px}
+.bizlist{list-style:none;padding:0;margin:26px 0 0;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 24px}
+.bizlist li{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.85)}
+.bizcta{margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.bizcta .note{margin:0}
+@media (max-width:820px){.bizlist{grid-template-columns:1fr}}
+.btn.ghost{background:transparent;color:var(--o);box-shadow:inset 0 0 0 2px var(--o);margin-left:8px}
+.btn.ghost:hover{box-shadow:inset 0 0 0 2px var(--o),0 10px 24px rgba(240,78,15,.18)}
+.pausebtn{margin-top:10px;background:none;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:6px 12px;font-size:.82rem;cursor:pointer}
+.pausebtn:hover{border-color:var(--o);color:var(--ink)}
+html.paused *,html.paused *::before,html.paused *::after{animation-play-state:paused!important}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.hero{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;padding:56px 20px 64px}
+.lead{font-size:1.15rem;color:var(--muted);margin:18px 0 26px;max-width:44ch}
+.fine{font-size:.88rem;color:var(--muted);margin-top:14px}
+.app{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);overflow:hidden;box-shadow:0 20px 50px rgba(240,78,15,.14)}
+.app-top{padding:12px 16px;font-weight:800;color:var(--on);background:var(--o)}
+#log{height:300px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:88%;padding:9px 12px;border-radius:12px;white-space:pre-line;font-size:.94rem;animation:pop .2s ease-out}
+.msg.me{align-self:flex-end;background:var(--me)}
+.msg.bot{align-self:flex-start;background:var(--bot);border:1px solid var(--line)}
+.typing{color:var(--muted)}
+.dots3{display:inline-flex;gap:4px;padding:4px 2px}
+.dots3 i{width:7px;height:7px;border-radius:50%;background:var(--muted);opacity:.5;animation:blink 1s infinite}
+.dots3 i:nth-child(2){animation-delay:.15s}.dots3 i:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%,60%,100%{transform:none;opacity:.35}30%{transform:translateY(-4px);opacity:1}}
+@keyframes pop{from{transform:translateY(6px);opacity:0}to{transform:none;opacity:1}}
+.prompts{display:flex;flex-direction:column;gap:6px;padding:0 14px 10px}
+.prompts button{text-align:left;background:var(--soft);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:.88rem;cursor:pointer}
+.prompts button:hover{border-color:var(--o)}
+.send{display:flex;gap:8px;padding:0 14px 14px}
+.send input{flex:1;min-width:0;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:11px 14px;font-size:1rem}
+.send .btn{padding:11px 18px}
+section{padding:64px 0;border-top:1px solid var(--line)}
+section>.wrap>p.sub{color:var(--muted);margin:12px 0 30px;max-width:56ch}
+.pain{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:28px}
+.pain p{font:700 1.25rem/1.25 var(--display);padding-top:14px;border-top:3px solid var(--o)}
+.layers{display:grid;grid-template-columns:1fr 1.1fr;gap:28px;align-items:stretch}
+.layer-list{display:flex;flex-direction:column;gap:8px}
+.layer-list button{text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:16px 18px;border-radius:10px;font:800 1.05rem var(--display);cursor:pointer}
+.layer-list button[aria-selected="true"]{background:var(--o);color:var(--on);border-color:var(--o)}
+.layer-info{background:var(--o);color:var(--on);border-radius:14px;padding:26px}
+.layer-info h3{font-size:1.4rem;margin-bottom:10px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.tabs button{border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:9px 16px;border-radius:999px;cursor:pointer;font-size:.95rem}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab-body{max-width:62ch;font-size:1.1rem}
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fields label{display:flex;flex-direction:column;gap:4px;font-size:.88rem;color:var(--muted)}
+.fields input{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:10px 12px;font-size:1rem;width:100%}
+.fields .full{grid-column:1/-1}
+.panel{background:rgba(255,244,238,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:14px;padding:22px}
+.big{font:800 2.2rem var(--display)}
+.dots{display:flex;flex-wrap:wrap;gap:4px;margin:14px 0}
+.dots i{width:12px;height:12px;border-radius:50%;background:var(--line);display:block}
+.dots i.f{background:var(--o)}
+.dots i.n{background:var(--muted);opacity:.45}
+.legend{font-size:.85rem;color:var(--muted)}
+.spark{position:absolute;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.9);border:1px solid var(--line);display:grid;place-items:center;pointer-events:none}
+.spark::after{content:"";width:14px;height:14px;background:var(--o);clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)}
+.px{position:absolute;width:14px;height:14px;background:rgba(27,20,17,.1);pointer-events:none}
+.tag{display:none;position:absolute;font:.72rem ui-monospace,Menlo,monospace;color:rgba(27,20,17,.35);pointer-events:none}
+@media (min-width:821px){.tag{display:block}}
+.leak{margin-top:14px;padding:12px 14px;border-left:4px solid var(--o);background:var(--bg);border-radius:0 8px 8px 0}
+.trust{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.trust div{border:1px solid var(--line);border-radius:12px;padding:18px}
+.trust b{display:block;font:800 1.1rem var(--display);margin-bottom:4px}
+.trust span{font-size:.82rem;font-weight:800;color:var(--o)}
+.trust span.todo{color:var(--muted)}
+details{border-bottom:1px solid var(--line);padding:16px 0}
+summary{cursor:pointer;font-weight:800}
+details p{color:var(--muted);margin-top:8px;max-width:64ch}
+footer{padding:28px 0 40px;color:var(--on);background:var(--o);font-size:.88rem}
+section.band{background:var(--o);color:var(--on);border-top:0}
+section.band>.wrap>p.sub{color:var(--on)}
+.band .trust div{background:#fff;color:var(--ink);border-color:#fff}
+main{overflow-x:clip}
+.logo span,header .btn{white-space:nowrap}
+@media (max-width:480px){header .btn{padding:8px 14px;font-size:.9rem}}
+@media (max-width:359px){header .btn{display:none}}
+/* ---------- movimento ---------- */
+.btn{transition:transform .18s ease,box-shadow .18s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(240,78,15,.32)}
+.btn:active{transform:translateY(0)}
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+.js .reveal.d1{transition-delay:.08s}.js .reveal.d2{transition-delay:.16s}.js .reveal.d3{transition-delay:.24s}
+.spark{animation:float 6s ease-in-out infinite}.spark+.spark{animation-delay:-3s}
+@keyframes float{50%{transform:translateY(-10px) rotate(25deg)}}
+.px{animation:drift 9s ease-in-out infinite}
+@keyframes drift{50%{transform:translate(8px,-6px)}}
+.rot{margin:8px 0 18px;font-size:1.05rem;color:var(--muted);min-height:1.6em}
+.rot b{color:var(--o);font-weight:800}
+.rot b::after{content:"";display:inline-block;width:2px;height:1.05em;background:var(--o);margin-left:2px;vertical-align:-2px;animation:caret 1s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+.marquee{overflow:hidden;padding:18px 0;border-top:1px solid var(--line);background:var(--soft);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee .track{display:flex;gap:12px;width:max-content;animation:slide 45s linear infinite}
+.marquee .track.rev{animation-direction:reverse;animation-duration:55s;margin-top:12px}
+.marquee:hover .track{animation-play-state:paused}
+.marquee span{background:var(--me);color:var(--ink);padding:9px 14px;border-radius:14px 14px 4px 14px;white-space:nowrap;font-size:.95rem}
+.marquee .track.rev span{background:#fff;border:1px solid var(--line);border-radius:14px 14px 14px 4px}
+@keyframes slide{to{transform:translateX(-50%)}}
+.js .step .msg{opacity:0;transform:translateY(10px) scale(.98);transition:opacity .45s ease,transform .45s ease}
+.js .step .msg.on{opacity:1;transform:none}
+.step{transition:transform .25s ease,box-shadow .25s ease}
+.step:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(240,78,15,.12)}
+.pain p{transition:transform .25s ease}.pain p:hover{transform:translateY(-3px)}
+.layer-info{transition:background .3s ease}
+.layer-info h3,.layer-info p{animation:pop .35s ease-out}
+.tab-body{animation:pop .35s ease-out}
+.autobar{height:3px;background:rgba(255,255,255,.35);border-radius:3px;margin-top:18px;overflow:hidden}
+.autobar i{display:block;height:100%;width:0;background:#fff}
+.autobar.run i{animation:fill 4s linear forwards}
+@keyframes fill{to{width:100%}}
+.big{transition:color .2s}
+.dots i{transition:transform .3s ease,background .3s}
+.dots.anim i{animation:pop .3s ease-out both}
+.eyebrow{display:inline-block;font:800 .82rem var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--o);margin-bottom:14px}
+.story{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+.step{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.85);padding:16px;display:flex;flex-direction:column;gap:8px}
+.step h3{font-size:1.1rem}
+.step .n{font:800 .8rem var(--body);color:var(--o)}
+.step .msg{max-width:100%;animation:none}
+.step .msg.me{align-self:flex-end}
+.note{font-size:.85rem;color:var(--muted);margin-top:14px}
+footer a{color:var(--on)}
+@media (max-width:820px){.hero,.calc,.layers{grid-template-columns:1fr}.pain,.trust,.story{grid-template-columns:1fr}nav a{display:none}}
+/* ---------- abertura da marca (uma vez por sessão; some sozinha mesmo sem JS) ---------- */
+#intro{position:fixed;inset:0;z-index:50;background:var(--o);display:none;place-items:center;cursor:pointer;animation:introAway .5s 1.7s forwards}
+.intro #intro{display:grid}
+#intro.out{animation:introAway .35s forwards}
+#intro .mark{position:relative;display:flex;align-items:center;gap:14px;color:#fff;font:800 clamp(2.6rem,10vw,4.8rem) var(--display);letter-spacing:-.03em;padding-bottom:14px}
+#intro svg{width:1.15em;height:1.15em;animation:introPop .7s cubic-bezier(.2,.9,.3,1.3) both}
+#intro .mark span{animation:introSlide .7s .12s cubic-bezier(.2,.7,.2,1) both}
+#intro .mark::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;border-radius:4px;background:#fff;transform-origin:left;animation:introLine .6s .45s cubic-bezier(.2,.7,.2,1) both}
+@keyframes introPop{from{transform:scale(.3) rotate(-20deg);opacity:0}}
+@keyframes introSlide{from{transform:translateX(-24px);opacity:0}}
+@keyframes introLine{from{transform:scaleX(0)}}
+@keyframes introAway{to{opacity:0;visibility:hidden}}
+/* ---------- história com celular 3D que gira ao rolar ---------- */
+section.s3{position:relative;overflow-x:clip;padding:24px 0;--pc:#F04E0F}
+.s3-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.s3-steps{grid-column:1;grid-row:1;position:relative;z-index:1}
+.s3-step{min-height:88vh;display:flex;flex-direction:column;justify-content:center;transition:opacity .4s ease}
+.js .s3-step:not(.on){opacity:.3}
+.s3-step h2{margin-bottom:12px}
+.s3-step p{color:var(--muted);font-size:1.1rem;max-width:40ch}
+.s3-step q{quotes:none;background:var(--me);border-radius:10px 10px 3px 10px;padding:1px 7px;color:var(--ink);font-weight:600}
+.s3-stage{grid-column:2;grid-row:1;position:sticky;top:calc(50vh - min(290px,37vh));height:min(580px,74vh);display:grid;place-items:center;perspective:1400px}
+.s3-wm{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:800 clamp(7rem,19vw,15rem)/1 var(--display);letter-spacing:-.05em;white-space:nowrap;color:var(--pc);opacity:.08;pointer-events:none;transition:color .5s ease}
+.s3-stage::after{content:"";position:absolute;bottom:-2%;left:50%;width:46%;height:5%;transform:translateX(-50%);border-radius:50%;background:rgba(27,20,17,.18);filter:blur(10px)}
+.s3-phone{position:relative;height:100%;aspect-ratio:9/18.5;transform-style:preserve-3d;transform:rotateX(8deg) rotateY(-16deg) rotateZ(-3deg);will-change:transform}
+.s3-face{position:absolute;inset:0;border-radius:13% / 6.3%;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--pc);transition:background .45s ease;box-shadow:0 30px 60px rgba(27,20,17,.22)}
+.s3-front{padding:3.6%;container-type:size}
+.s3-back{transform:rotateY(180deg);display:grid;place-items:center}
+.s3-back svg{width:38%;height:auto}
+.s3-back::before{content:"";position:absolute;top:4%;left:7%;width:30%;aspect-ratio:1;border-radius:24%;background:rgba(255,255,255,.16)}
+.s3-glass{position:relative;height:100%;border-radius:10.5% / 5%;background:#FFF8F4;overflow:hidden}
+.s3-screen{position:absolute;inset:0;display:flex;flex-direction:column;font-size:13px;font-size:2.55cqh;opacity:0;transition:opacity .3s ease}
+.s3-screen.on{opacity:1}
+.s3-top{background:var(--pc);color:#fff;font-weight:800;padding:12% 7% 4%;transition:background .45s ease}
+.s3-chat{display:flex;flex-direction:column;gap:.6em;padding:7%}
+.s3-chat p{max-width:86%;padding:.55em .8em;border-radius:1em;line-height:1.3}
+.s3-chat .me{align-self:flex-end;background:var(--me);border-bottom-right-radius:.25em}
+.s3-chat .bot{align-self:flex-start;background:#fff;border:1px solid var(--line);border-bottom-left-radius:.25em}
+.s3-card{margin:auto 7% 9%;background:#fff;border-radius:1.2em;padding:1.1em;box-shadow:0 .6em 1.6em rgba(27,20,17,.1);display:flex;flex-direction:column;gap:.35em}
+.s3-card .ok{width:2.4em;height:2.4em;border-radius:50%;background:#1E9E5A;color:#fff;display:grid;place-items:center;font-weight:800;font-style:normal;margin:0 auto .3em}
+.s3-card b{font:800 1.9em/1.05 var(--display);text-align:center}
+.s3-card small{color:var(--muted);text-align:center}
+.s3-card .row{display:grid;grid-template-columns:5.2em 1fr;gap:.5em;align-items:center;font-size:.85em}
+.s3-bar{height:.6em;border-radius:1em;background:var(--line);overflow:hidden}
+.s3-bar i{display:block;height:100%;border-radius:inherit;background:var(--pc);transition:background .45s ease}
+@media (max-width:820px){
+ .s3-grid{grid-template-columns:1fr;gap:0}
+ .s3-stage{grid-column:1;top:68px;height:46vh;z-index:0}
+ .s3-steps{grid-row:2;margin-top:-20vh}
+ .s3-step{min-height:80vh;justify-content:flex-end;padding-bottom:calc(6vh + 64px)}
+ .s3-step>div{background:rgba(255,255,255,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:16px;padding:18px}
+ .js .s3-step:not(.on){opacity:.55}
+}
+/* ---------- barra flutuante com a chamada ---------- */
+.dock{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:9;display:flex;align-items:center;gap:12px;max-width:calc(100% - 32px);padding:7px 7px 7px 14px;border-radius:999px;background:var(--ink);color:#fff;box-shadow:0 14px 40px rgba(27,20,17,.3);transform:translate(-50%,160%);opacity:0;visibility:hidden;transition:transform .45s cubic-bezier(.2,.7,.2,1),opacity .3s ease,visibility 0s .45s}
+.dock.show{transform:translate(-50%,0);opacity:1;visibility:visible;transition-delay:0s}
+.dock span{font:800 .95rem var(--display);white-space:nowrap}
+.dock .btn{border-radius:999px;padding:10px 18px;white-space:nowrap}
+@media (max-width:420px){.dock span{display:none}}
+/* Quem pede menos movimento no sistema: nada desliza nem flutua, mas o conteúdo ainda aparece suavemente e se atualiza */
+@media (prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ .spark,.px,.dots3 i,.rot b::after{animation:none!important}
+ /* a faixa de mensagens continua rodando (é a "vitrine" do site), só que mais devagar;
+    o botão "Pausar animações" para tudo */
+ .marquee .track{animation-duration:90s}
+ .marquee .track.rev{animation-duration:110s}
+ .js .reveal,.js .step .msg{transform:none!important}
+ .btn:hover,.step:hover,.pain p:hover{transform:none}
+ @keyframes pop{from{opacity:0}to{opacity:1}}
+}
+</style>
+</head>
+<body>
+<div id="intro" aria-hidden="true"><div class="mark"><svg viewBox="0 0 64 64"><path fill="#fff" d="M18 6h28a14 14 0 0 1 14 14v18a14 14 0 0 1-14 14H24l-12 9v-9.6A14 14 0 0 1 4 38V20A14 14 0 0 1 18 6z"/><path fill="#F04E0F" d="M37.5 12 20 33.5h11.2L27 47l18-22.5H33.6z"/></svg><span>ZAP Cash</span></div></div>
+<header><div class="wrap"><a class="logo" href="#" aria-label="ZAP Cash, início"><svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><path fill="#F04E0F" d="M18 6h28a14 14 0 0 1 14 14v18a14 14 0 0 1-14 14H24l-12 9v-9.6A14 14 0 0 1 4 38V20A14 14 0 0 1 18 6z"/><path fill="#fff" d="M37.5 12 20 33.5h11.2L27 47l18-22.5H33.6z"/></svg><span><b>ZAP</b> Cash</span></a><nav><a href="#metas">Metas</a><a href="#negocios">Negócios</a><a href="#como">Como funciona</a><a href="#calculadora">Calculadora</a><a href="#perguntas">Perguntas</a><a class="btn cta" href="#perguntas">Quero usar</a></nav></div></header>
+<main>
+<div class="wrap hero" id="testar">
+ <span class="spark" aria-hidden="true" style="left:-4px;top:34px"></span><span class="spark" aria-hidden="true" style="right:-4px;top:34px"></span><span class="px" aria-hidden="true" style="right:60px;top:18px"></span><span class="px" aria-hidden="true" style="right:84px;top:42px"></span><span class="px" aria-hidden="true" style="left:120px;bottom:22px"></span><span class="tag" aria-hidden="true" style="left:12px;top:8px">[ gasto anotado ]</span><span class="tag" aria-hidden="true" style="right:12px;bottom:8px">[ relatório ok ]</span>
+ <div>
+  <span class="eyebrow">Organização financeira pelo WhatsApp</span>
+  <h1>Converse com o seu dinheiro.</h1>
+  <p class="rot" aria-live="off">Experimente mandar: <b id="rot">sorvete 40 débito</b></p>
+  <p class="lead">Tudo o que dava trabalho numa planilha, agora é só mandar mensagem. Mande “sorvete 40 débito” e está anotado. Diga “quero comprar uma bolsa semana que vem” e ele monta o plano: quanto guardar e onde cortar. Sem ligar ao seu banco.</p>
+  <a class="btn cta" href="#perguntas">Quero usar</a>
+  <a class="btn ghost" id="waitlist" href="#" target="_blank" rel="noopener" hidden>Quero ser avisado</a>
+  <p class="fine">Teste ao lado: é uma demonstração com respostas prontas e gastos de exemplo; no WhatsApp quem entende é a IA. Nada do que você digita é guardado.</p>
+  <button type="button" class="pausebtn" id="pause" aria-pressed="false">⏸ Pausar animações</button>
+ </div>
+ <div class="app" aria-label="Simulador de conversa">
+  <div class="app-top">ZAP Cash</div>
+  <div id="log" role="log" aria-live="polite"></div>
+  <div class="prompts" id="prompts"></div>
+  <form class="send" id="form"><input id="txt" autocomplete="off" aria-label="Mensagem" placeholder="Pergunte ou anote: mercado 120 pix"><button class="btn" type="submit">Enviar</button></form>
+ </div>
+</div>
+
+<div class="marquee" aria-hidden="true">
+ <div class="track" id="mq1"></div>
+ <div class="track rev" id="mq2"></div>
+</div>
+
+<section id="historia" class="s3" aria-label="O ZAP Cash em quatro mensagens"><div class="wrap s3-grid">
+ <div class="s3-stage" aria-hidden="true">
+  <div class="s3-wm">ZAP Cash</div>
+  <div class="s3-phone" id="phone3d">
+   <div class="s3-face s3-back"><svg viewBox="0 0 64 64"><path fill="#fff" d="M18 6h28a14 14 0 0 1 14 14v18a14 14 0 0 1-14 14H24l-12 9v-9.6A14 14 0 0 1 4 38V20A14 14 0 0 1 18 6z"/><path style="fill:var(--pc);transition:fill .45s" d="M37.5 12 20 33.5h11.2L27 47l18-22.5H33.6z"/></svg></div>
+   <div class="s3-face s3-front"><div class="s3-glass">
+    <div class="s3-screen on"><div class="s3-top">ZAP Cash</div>
+     <div class="s3-chat"><p class="me">sorvete 40 débito</p><p class="bot">Anotado ✅ R$ 40 em Alimentação, no débito.</p></div>
+     <div class="s3-card"><i class="ok">✓</i><b>R$ 40</b><small>Alimentação · débito · hoje</small></div></div>
+    <div class="s3-screen"><div class="s3-top">ZAP Cash</div>
+     <div class="s3-chat"><p class="me">mês</p><p class="bot">Seu mês até agora 👇</p></div>
+     <div class="s3-card"><small>Gastos do mês</small><b>R$ 1.240</b>
+      <div class="row"><span>Mercado</span><span class="s3-bar"><i style="width:76%"></i></span></div>
+      <div class="row"><span>Delivery</span><span class="s3-bar"><i style="width:54%"></i></span></div>
+      <div class="row"><span>Transporte</span><span class="s3-bar"><i style="width:28%"></i></span></div></div></div>
+    <div class="s3-screen"><div class="s3-top">ZAP Cash</div>
+     <div class="s3-chat"><p class="me">quero comprar uma bolsa de 600 até dezembro</p><p class="bot">Fechado! Montei o plano 🎯</p></div>
+     <div class="s3-card"><small>Bolsa · R$ 600</small><b>R$ 150/semana</b><div class="s3-bar"><i style="width:25%"></i></div><small>R$ 150 de R$ 600 guardados</small></div></div>
+    <div class="s3-screen"><div class="s3-top">ZAP Cash</div>
+     <div class="s3-chat"><p class="bot">⚠️ Delivery chegou em 80% do limite do mês.</p></div>
+     <div class="s3-card"><small>Limite de Delivery</small><b>R$ 240 / 300</b><div class="s3-bar"><i style="width:80%"></i></div><small>Ainda dá R$ 60 até o fim do mês</small></div></div>
+   </div></div>
+  </div>
+ </div>
+ <div class="s3-steps">
+  <div class="s3-step on"><div><span class="eyebrow">1 · Anotar</span><h2>Mandou, anotou.</h2><p><q>sorvete 40 débito</q> vira gasto com categoria e forma de pagamento. Sem abrir planilha.</p></div></div>
+  <div class="s3-step"><div><span class="eyebrow">2 · Acompanhar</span><h2>Pergunte, ele responde.</h2><p>Mande <q>mês</q> e veja pra onde foi o dinheiro, separado por categoria.</p></div></div>
+  <div class="s3-step"><div><span class="eyebrow">3 · Planejar</span><h2>Quer algo? Vira plano.</h2><p>Diga o que quer e até quando. Ele calcula quanto guardar por semana.</p></div></div>
+  <div class="s3-step"><div><span class="eyebrow">4 · Controlar</span><h2>Ele avisa antes de estourar.</h2><p>Com limite por categoria, o aviso chega em 80% e quando passa.</p></div></div>
+ </div>
+</div></section>
+
+<section id="pra-quem"><div class="wrap">
+ <h2>Pra quem é?</h2>
+ <p class="sub">Pra quem quer saber pra onde vai o dinheiro sem virar contador. Na primeira conversa ele pergunta o seu objetivo e de onde vem o seu dinheiro, e se ajusta a você.</p>
+ <div class="who">
+  <article><h3>📚 Estuda muito ou é concurseiro?</h3>
+   <p>Cursinho, apostila, inscrição de prova, xerox e o lanche entre uma aula e outra. Veja quanto o estudo custa de verdade e junte pra próxima inscrição sem aperto.</p>
+   <span class="ex">quero juntar 150 pra inscrição do concurso até março</span></article>
+  <article><h3>💸 Quer organizar melhor sua mesada?</h3>
+   <p>Faça ela durar até o fim do mês e ainda sobrar pro rolê, sem planilha e sem sermão.</p>
+   <span class="ex">lanche 12 pix</span></article>
+  <article><h3>💼 Quer organizar melhor o seu salário?</h3>
+   <p>Saiba quanto vai pro essencial, quanto pro lazer e quanto dá pra guardar todo mês, com as contas feitas pra você.</p>
+   <span class="ex">quanto sobrou esse mês?</span></article>
+  <article><h3>🧁 Tem um pequeno negócio?</h3>
+   <p>Vendas, lucro e fiado no mesmo lugar. Está chegando.</p>
+   <a class="more" href="#negocios">Ver o que vem aí →</a></article>
+ </div>
+</div></section>
+
+<section id="metas"><div class="wrap">
+ <h2>Quer comprar algo? Ele monta o plano.</h2>
+ <p class="sub">Você não precisa fazer conta. Diga o que quer e até quando; o resto sai do seu histórico de gastos.</p>
+ <div class="story">
+  <div class="step"><span class="n">1 · Diga o que quer</span>
+   <div class="msg me">quero comprar uma bolsa de 600 daqui um mês</div>
+   <div class="msg bot">🎯 Bolsa de R$ 600 até 15/12
+Dá R$ 140 por semana.
+Como fazer:
+• corta R$ 24 de Delivery
+• guarda mais R$ 108 da sua renda
+Cabe no seu orçamento 👍</div></div>
+  <div class="step"><span class="n">2 · Saiu do plano? Sem bronca</span>
+   <div class="msg me">não aguentei, comi um lanche de 40, o que acontece com o plano?</div>
+   <div class="msg bot">Tranquilo, acontece 😅 Pra bolsa, escolhe:
+1) manter 15/12 → R$ 150 por semana
+2) adiar pra 17/12 → segue R$ 140
+Já deixei no 1. Quer o 2? Responde 2.</div></div>
+  <div class="step"><span class="n">3 · Parcelou? Ele lembra</span>
+   <div class="msg me">tênis 300 em 3x no crédito</div>
+   <div class="msg bot">✅ Tênis R$ 300 · Compras · crédito
+💳 3x de R$ 100. Eu anoto e te lembro todo dia 15.</div></div>
+ </div>
+ <div class="learn"><span aria-hidden="true">📈</span><p><b>Ele aprende com você.</b> No primeiro dia você já sabe quanto separar por semana. Pra sugerir onde cortar, ele precisa de pelo menos uma semana de gastos anotados, e fica mais certeiro depois de 2 a 4 semanas, conforme conhece seus padrões.</p></div>
+ <p class="note">Conversas de exemplo, com números ilustrativos. As contas são feitas pelo sistema, não pela IA. Ele não recomenda investimentos: só mostra quanto separar.</p>
+</div></section>
+
+<section id="negocios" class="biz"><div class="wrap">
+ <span class="soon">Em breve</span>
+ <h2>Tem um pequeno negócio? 🧁</h2>
+ <p class="sub">Bolo de pote, unha, marmita, lojinha no Instagram: o mesmo jeito fácil, agora pro dinheiro do seu negócio. Você manda o que vendeu e o que gastou, e ele mostra quanto sobrou de verdade.</p>
+ <div class="story">
+  <div class="step"><span class="n">Vendeu? Manda</span>
+   <div class="msg me">vendi 3 bolos de pote 45 pix</div>
+   <div class="msg bot">💰 Venda R$ 45 · pix
+Hoje: R$ 320 em vendas</div></div>
+  <div class="step"><span class="n">Quanto sobrou?</span>
+   <div class="msg me">quanto sobrou esse mês?</div>
+   <div class="msg bot">📊 Novembro
+Entrou R$ 4.200 · saiu R$ 2.650
+Sobrou R$ 1.550 💪
+Mais vendido: bolo de pote</div></div>
+  <div class="step"><span class="n">Ficou devendo? Ele lembra</span>
+   <div class="msg me">a Ana ficou devendo 50</div>
+   <div class="msg bot">📝 Anotei: Ana te deve R$ 50. Te lembro de cobrar na sexta 😉</div></div>
+ </div>
+ <ul class="bizlist">
+  <li>💼 Separa o dinheiro do negócio do dinheiro de casa</li>
+  <li>🧾 Insumos, embalagem, entrega e taxa da maquininha em categorias próprias</li>
+  <li>📈 Faturamento, lucro e o que mais vende</li>
+  <li>🗓️ Para MEI: lembrete do boleto mensal e quanto falta para o limite do ano</li>
+ </ul>
+ <p class="bizcta">
+  <a class="btn" id="waitlist-biz" href="#" target="_blank" rel="noopener" hidden>Quero no meu negócio</a>
+  <span id="waitlist-biz-off" class="note">A lista de espera para negócios abre em breve. Enquanto isso, teste o modo pessoal lá em cima 👆</span>
+ </p>
+ <p class="note">Ainda em construção: exemplos ilustrativos. Não fazemos contabilidade nem orientação fiscal.</p>
+</div></section>
+
+<section><div class="wrap">
+ <h2>Chega de planilha. Tenha tudo direto no seu WhatsApp.</h2>
+ <p class="sub">O trabalho chato de organizar e planejar fica com ele. Você só conversa.</p>
+ <div class="vs">
+  <div class="vs-head" aria-hidden="true"><span></span><span>Na planilha</span><span>No ZAP Cash</span></div>
+  <div class="vs-row"><b>Anotar um gasto</b><span class="old">Abrir o arquivo, achar a linha, preencher cinco colunas</span><span class="new">Mandar <q>lanche 15 pix</q></span></div>
+  <div class="vs-row"><b>Pagou com Pix ou cartão?</b><span class="old">Copiar valor e data do comprovante</span><span class="new">Manda a foto do comprovante (ou um áudio)</span></div>
+  <div class="vs-row"><b>Separar por categoria</b><span class="old">Escolher e digitar uma por uma</span><span class="new">Automático, e ele aprende com as suas correções</span></div>
+  <div class="vs-row"><b>Ver como foi o mês</b><span class="old">Montar fórmulas e gráficos</span><span class="new">Mandar <q>mês</q></span></div>
+  <div class="vs-row"><b>Planejar uma compra</b><span class="old">Simular cenários na mão</span><span class="new"><q>quero comprar uma bolsa de 600 até dezembro</q></span></div>
+  <div class="vs-row"><b>Compras parceladas</b><span class="old">Lembrar de lançar todo mês</span><span class="new">Anota sozinho e te avisa no dia</span></div>
+  <div class="vs-row"><b>Contas fixas</b><span class="old">Copiar aluguel, Netflix e academia todo mês</span><span class="new"><q>netflix 40 todo mês</q> e ele anota sozinho</span></div>
+  <div class="vs-row"><b>Quanto sobrou</b><span class="old">Somar entradas e saídas na mão</span><span class="new"><q>recebi 200 do freela</q> e ele mostra quanto sobrou</span></div>
+  <div class="vs-row"><b>Limite de gastos</b><span class="old">Conferir de vez em quando</span><span class="new">Avisa quando chega em 80% e quando passa</span></div>
+  <div class="vs-row"><b>Essencial x opcional</b><span class="old">Marcar linha por linha</span><span class="new">Separado sozinho</span></div>
+  <div class="vs-row"><b>E se eu quiser a planilha?</b><span class="old">Ela é o ponto de partida</span><span class="new">Manda <q>exportar meus dados</q> e ela chega pronta 😉</span></div>
+ </div>
+</div></section>
+
+<section id="como"><div class="wrap">
+ <h2>Do recado ao relatório, em quatro camadas.</h2>
+ <p class="sub">Toque em cada camada para ver o que ela faz.</p>
+ <div class="layers">
+  <div class="layer-list" id="layerList" role="tablist"></div>
+  <div class="layer-info" id="layerInfo" aria-live="polite"></div>
+ </div>
+</div></section>
+
+<section><div class="wrap">
+ <h2>O que ele faz em cada etapa.</h2>
+ <p class="sub">Tudo acontece na mesma conversa.</p>
+ <div class="tabs" id="tabs" role="tablist"></div>
+ <p class="tab-body" id="tabBody"></p>
+</div></section>
+
+
+
+<section><div class="wrap">
+ <h2>Dois jeitos de usar.</h2>
+ <p class="sub">Você escolhe quanto quer compartilhar.</p>
+ <div class="trust">
+  <div><b>Modo Manual</b><span>Padrão, já no protótipo</span><p class="legend">Você anota o que gasta. Sem ligar ao banco, sem senha e sem cartão.</p></div>
+  <div><b>Modo Conectado</b><span class="todo">Em planejamento, opcional</span><p class="legend">Para quem prefere não digitar: ver saldo e gastos automaticamente, só leitura, com autorização sua e podendo revogar. Ainda não existe.</p></div>
+ </div>
+</div></section>
+
+<section><div class="wrap">
+ <h2>Feito para o ritmo da faculdade.</h2>
+ <p class="sub">Ideias que planejamos testar com estudantes antes de lançar.</p>
+ <div class="trust">
+  <div><b>Indique um amigo</b><span class="todo">Em planejamento</span><p class="legend">Cada amigo que assinar rende um crédito para você.</p></div>
+  <div><b>Embaixador de faculdade</b><span class="todo">Em planejamento</span><p class="legend">Comissão por assinante pago, com o código da sua turma ou atlética.</p></div>
+  <div><b>Desafio entre turmas</b><span class="todo">Em planejamento</span><p class="legend">Qual curso fecha mais meses no azul? Ranking sem expor os gastos de ninguém.</p></div>
+  <div><b>Plano estudante</b><span class="todo">Em planejamento</span><p class="legend">Preço menor com verificação por e-mail da faculdade e recursos como dividir a conta da república.</p></div>
+ </div>
+</div></section>
+
+<section id="calculadora"><div class="wrap">
+ <h2>Onde seu dinheiro vaza?</h2>
+ <p class="sub">Informe quanto você gasta por mês, mais ou menos. Cada ponto vale R$ 100. A conta é feita no seu navegador.</p>
+ <div class="calc">
+  <div class="fields" id="fields"></div>
+  <div class="panel">
+   <div class="big" id="total">R$ 0,00</div>
+   <p id="share" style="color:var(--muted)"></p>
+   <div class="dots" id="dots" aria-hidden="true"></div>
+   <p class="legend">Laranja: gastos flexíveis (delivery, lazer, compras, assinaturas). Cinza: o restante.</p>
+   <div class="leak" id="leak"></div>
+   <p class="legend" style="margin-top:12px">Estimativa com os valores digitados. Não é recomendação financeira.</p>
+  </div>
+ </div>
+</div></section>
+
+<section class="band"><div class="wrap">
+ <h2>Nossos compromissos com os seus dados.</h2>
+ <p class="sub">O que já funciona e o que ainda falta antes de abrir.</p>
+ <div class="trust">
+  <div><b>Sem ligação ao banco por padrão</b><span>Pronto no protótipo</span><p class="legend">No modo padrão você só anota. Qualquer conexão futura será opcional e só com a sua autorização.</p></div>
+  <div><b>Apagar tudo a qualquer momento</b><span>Pronto no protótipo</span><p class="legend">Um comando exclui seus gastos e seu cadastro.</p></div>
+  <div><b>Contas feitas pelo sistema</b><span>Pronto no protótipo</span><p class="legend">A IA entende a frase; somas e comparações são cálculo, não palpite.</p></div>
+  <div><b>Política de privacidade e termos</b><span class="todo">Rascunho pronto, falta revisão</span><p class="legend"><a href="privacidade.html" style="color:inherit">Leia o rascunho</a>. Antes de abrir: revisão com advogado e adequação à LGPD.</p></div>
+ </div>
+</div></section>
+
+<section id="perguntas"><div class="wrap">
+ <h2>Perguntas frequentes.</h2>
+ <div style="margin-top:22px">
+  <details><summary>O serviço vê meu banco?</summary><p>No modo padrão, não. Você só anota o que gastou e nunca pedimos senha nem número de cartão. Um modo conectado opcional está em planejamento e só funcionaria com a sua autorização.</p></details>
+  <details><summary>Como apago meus dados?</summary><p>Digite “apagar meus dados” e confirme. Seus gastos e seu cadastro são excluídos.</p></details>
+  <details><summary>A IA faz as contas?</summary><p>A IA entende a sua mensagem. As somas e comparações são feitas pelo sistema, para o relatório sair certo.</p></details>
+  <details><summary>Posso pedir conselho de investimento?</summary><p>Não. O serviço cuida dos seus gastos: anotar, mostrar para onde foi o dinheiro e sugerir como gastar menos.</p></details>
+  <details><summary>A IA aprende comigo?</summary><p>Sim, do jeito certo. A IA não é treinada com os seus dados: o serviço guarda o seu histórico e as suas preferências (as categorias que você corrigiu, o que é essencial pra você, o seu objetivo) e usa isso pra anotar e planejar do seu jeito. Corrigiu "bar do zé" pra Lazer uma vez? Da próxima, ele já anota como Lazer.</p></details>
+  <details><summary>Quando o planejamento começa a funcionar?</summary><p>Na hora você já recebe quanto separar por semana ou por mês. Pra mostrar onde dá pra cortar, ele precisa de pelo menos 7 dias de gastos anotados, e fica mais certeiro com 2 a 4 semanas de uso.</p></details>
+  <details><summary>Serve pra quem estuda ou faz concurso?</summary><p>Serve, e foi pensado pra isso também: cursinho, apostila, inscrição e transporte entram na categoria Educação ou Transporte, e você pode criar uma meta como "juntar 150 pra inscrição até março".</p></details>
+  <details><summary>Posso mandar foto ou áudio?</summary><p>Pode. A foto do comprovante (Pix, cartão, nota) é lida e o gasto é anotado; o áudio é transcrito e anotado do mesmo jeito. Nenhum dos dois fica guardado.</p></details>
+  <details><summary>Preciso instalar algum aplicativo?</summary><p>Não. Tudo acontece numa conversa no WhatsApp que você já usa.</p></details>
+  <details><summary>Ele entende compra parcelada?</summary><p>Sim. Diga, por exemplo, “celular em 10x de 150”. Cada parcela entra no mês em que cai e você recebe um lembrete no dia.</p></details>
+  <details><summary>E se eu sair do plano da minha meta?</summary><p>Conte o que aconteceu. Ele recalcula e mostra como recuperar: guardar um pouco mais por semana ou adiar o prazo alguns dias.</p></details>
+  <details><summary>Como vai funcionar a indicação de amigos?</summary><p>Ainda estamos definindo. A ideia é um crédito para quem indica quando o amigo assinar. Os detalhes serão divulgados na abertura.</p></details>
+  <details><summary>Serve para o meu negócio?</summary><p>Ainda não. Estamos avaliando o interesse em um modo para pequenos negócios, com ideias como vendas, lucro, fiado e lembretes de MEI. Veja a seção "Tem um pequeno negócio?" e entre na lista de espera para demonstrar interesse.</p></details>
+  <details><summary>Quanto custa e quando abre?</summary><p>Os planos e a data serão divulgados na abertura. Esta página é uma prévia e não guarda nada do que você digita.</p></details>
+ </div>
+</div></section>
+<section id="afiliados"><div class="wrap">
+ <h2>Afiliados e embaixadores.</h2>
+ <p class="sub">Programa em construção. Os valores abaixo são uma simulação ilustrativa, não uma oferta: regras e porcentagens serão definidas antes da abertura.</p>
+ <div class="pain">
+  <p>Você recebe um link e um código pessoais, e o da sua faculdade ou turma.</p>
+  <p>Seus amigos assinam usando o código. Só conta assinatura paga e confirmada.</p>
+  <p>Você acompanha indicações e ganhos em um painel simples. Um nível só: sem comissão por recrutar recrutadores.</p>
+ </div>
+ <div class="calc" style="margin-top:34px">
+  <div class="fields">
+   <label class="full">Preço da assinatura por mês (R$)<input id="a-preco" type="number" inputmode="decimal" min="0" value="19.9"></label>
+   <label>Comissão (%)<input id="a-com" type="number" inputmode="decimal" min="0" max="100" value="30"></label>
+   <label>Indicados que assinam<input id="a-n" type="number" inputmode="numeric" min="0" value="10"></label>
+   <label class="full">Meses que cada indicado fica<input id="a-m" type="number" inputmode="numeric" min="1" value="3"></label>
+  </div>
+  <div class="panel">
+   <div class="big" id="a-total">R$ 0,00</div>
+   <p id="a-txt" style="color:var(--muted)"></p>
+   <div class="leak">Simulação ilustrativa. Valores, forma de pagamento e impostos sobre comissão ainda serão definidos.</div>
+  </div>
+ </div>
+</div></section>
+</main>
+<div class="dock" id="dock"><span>Converse com o seu dinheiro.</span><a class="btn cta" href="#perguntas">Quero usar</a></div>
+<footer><div class="wrap">Prévia do ZAP Cash. Os dados do simulador são de exemplo, e as respostas usam regras simples; no serviço real, a IA entende frases livres. · <a href="#afiliados">Afiliados</a> · <a href="privacidade.html">Privacidade (rascunho)</a></div></footer>
+
+<script>
+const WA_NUMBER = ""; // número com DDI e DDD, ex.: 5511999999999
+const WAITLIST_URL = ""; // link do formulário da lista de espera (Tally, Google Forms...). Vazio = botão escondido
+const CF_ANALYTICS_TOKEN = ""; // token do Cloudflare Web Analytics (sem cookies). Vazio = sem contagem de visitas
+if (CF_ANALYTICS_TOKEN) {
+  const sc = document.createElement("script");
+  sc.defer = true; sc.src = "https://static.cloudflareinsights.com/beacon.min.js";
+  sc.setAttribute("data-cf-beacon", JSON.stringify({token: CF_ANALYTICS_TOKEN}));
+  document.head.appendChild(sc);
+}
+if (WAITLIST_URL && !WA_NUMBER) { const w = document.getElementById("waitlist"); w.href = WAITLIST_URL; w.hidden = false; }
+if (WAITLIST_URL) {
+  // mesmo formulário, marcando que veio da seção de negócios (Tally e Google Forms aceitam campos pela URL)
+  const b = document.getElementById("waitlist-biz");
+  b.href = WAITLIST_URL + (WAITLIST_URL.includes("?") ? "&" : "?") + "publico=negocio";
+  b.hidden = false; document.getElementById("waitlist-biz-off").hidden = true;
+}
+const $ = s => document.querySelector(s);
+const brl = n => {const c=Math.round(n*100)/100;return c.toLocaleString("pt-BR",{style:"currency",currency:"BRL",minimumFractionDigits:c%1?2:0,maximumFractionDigits:2});};
+const cap = x => x ? x[0].toUpperCase()+x.slice(1) : x;
+document.querySelectorAll(".cta").forEach(b=>{
+  if(WA_NUMBER){b.href="https://wa.me/"+WA_NUMBER+"?text="+encodeURIComponent("Oi!");}
+  else{
+    // Sem número do bot ainda: o botão leva ao simulador para a pessoa testar na hora
+    b.textContent="Testar agora";b.href="#testar";
+    b.addEventListener("click",e=>{e.preventDefault();stopDemo();$("#testar").scrollIntoView({behavior:reduceMotion?"auto":"smooth",block:"center"});setTimeout(()=>$("#txt").focus({preventScroll:true}),reduceMotion?0:500);});
+  }
+});
+// Movimento reduzido é tratado no CSS; a parte automática (conversa, frases, abas) continua para todos.
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const reduce = false;
+let paused = false; // botão "Pausar animações"
+const sleep = ms => new Promise(r=>setTimeout(r,reduce?0:ms));
+function typingBubble(parent){const d=document.createElement("div");d.className="msg bot typing";d.setAttribute("aria-label","digitando");d.innerHTML='<span class="dots3"><i></i><i></i><i></i></span>';parent.appendChild(d);return d;}
+
+/* Simulador */
+const CATS=[["Mercado",/mercado|super|feira|a[çc]ougue|hortifruti/],["Delivery",/ifood|delivery|rappi|restaurante|pizza|marmita/],["Transporte",/uber|\b99\b|gasolina|combust|[ôo]nibus|bus[ãa]o|metr[ôo]|estacionamento|ped[áa]gio/],["Lazer",/cinema|show|jogo|festa|bar\b|cerveja|rol[êe]|balada|ingresso/],["Saúde",/farm|rem[ée]dio|consulta|dentista|academia|m[ée]dico/],["Compras",/camiseta|t[êe]nis|roupa|blusa|shopee|celular|presente/],["Assinaturas",/netflix|spotify|assinatura|disney|prime|hbo|youtube/],["Moradia",/aluguel|condom[íi]nio|luz|[áa]gua|internet|g[áa]s\b/],["Educação",/facul|mensalidade|curso|livro|xerox|apostila|inscri|concurso|material/],["Alimentação",/sorvete|lanche|almo[çc]o|caf[ée]|padaria|a[çc]a[íi]|pastel|jantar|salgado/]];
+const PAY=[["Pix",/pix/],["Débito",/d[ée]bito/],["Crédito",/cr[ée]dito|cart[ãa]o|parcel|\d+\s*x\b/],["Dinheiro",/dinheiro|esp[ée]cie/],["Vale-refeição",/\bvr\b|\bva\b|vale|alelo|sodexo|ticket/],["Boleto",/boleto/]];
+const FLEX=["Delivery","Lazer","Compras","Assinaturas"];
+const ex=[["Mercado",187.45],["Mercado",63.2],["Mercado",224.8],["Delivery",68.5],["Delivery",79.9],["Delivery",112],["Delivery",74.5],["Transporte",150],["Transporte",23.9],["Lazer",56],["Saúde",42.3],["Compras",89.9],["Alimentação",49.9]].map(x=>({cat:x[0],v:x[1]}));
+const log=$("#log");
+let goal=null; // última meta criada no simulador
+function add(role,text,cls){const d=document.createElement("div");d.className="msg "+role+(cls?" "+cls:"");d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight;return d;}
+const sum=a=>a.reduce((s,e)=>s+e.v,0);
+function rank(){const by={};ex.forEach(e=>by[e.cat]=(by[e.cat]||0)+e.v);return Object.entries(by).sort((a,b)=>b[1]-a[1]);}
+// Lê o valor inteiro, sem aceitar apenas parte de um valor inválido.
+function readAmount(text){
+  const token=text.match(/[+-]?\d[\d.,]*/);
+  if(!token)return null;
+  const raw=token[0];
+  if(!/^(?:\d{1,3}(?:\.\d{3})+(?:,\d{1,2})?|\d+(?:[.,]\d{1,2})?)$/.test(raw))return NaN;
+  const normalized=raw.includes(",")?raw.replace(/\./g,"").replace(",","."):/^\d{1,3}(?:\.\d{3})+$/.test(raw)?raw.replace(/\./g,""):raw;
+  const value=Number(normalized),cents=Math.round(value*100);
+  return value>0&&Number.isSafeInteger(cents)?cents/100:NaN;
+}
+const INVALID_AMOUNT="Manda um valor maior que zero, tipo: mercado 1.200,50 pix";
+function answer(txt){
+  const t=txt.toLowerCase(), tot=sum(ex), r=rank();
+  const cat=CATS.find(c=>c[1].test(t+" "));
+  if(/essencia|opcion/.test(t)){
+    const ESS=["Mercado","Transporte","Saúde","Moradia","Educação"];
+    const e=sum(ex.filter(x=>ESS.includes(x.cat))),o=tot-e;
+    const top=r.filter(x=>!ESS.includes(x[0])).slice(0,2).map(x=>x[0]+" "+brl(x[1])).join(" · ");
+    return "⚖️ Essencial "+brl(e)+" ("+Math.round(e/tot*100)+"%) · opcional "+brl(o)+" ("+Math.round(o/tot*100)+"%)\nMaiores opcionais: "+top+"\nClassifico sozinho (aluguel, luz, mercado = essencial). Errei? É só corrigir.";
+  }
+  if(/n[aã]o aguentei|n[aã]o resisti|sa[ií] do plano|atrapalh|o que acontece|e (a|minha) meta/.test(t)){
+    const s=readAmount(t);
+    if(!goal)return "Você ainda não tem meta, então tá tudo certo 😉 Pra criar: quero comprar uma bolsa de 600 em 1 mês";
+    if(s===null)return "Quanto foi? 🤔 Tipo: não aguentei, comi um lanche de 40";
+    if(!Number.isFinite(s))return INVALID_AMOUNT;
+    const days=goal.weeks*7,perDay=goal.val/days;
+    const keep=Math.ceil((goal.val+s)/goal.weeks),extra=Math.max(1,Math.ceil(s/perDay));
+    goal.val+=s;
+    return "✅ Lanche "+brl(s)+"\n\nTranquilo, acontece 😅 Escolhe:\n1) manter o prazo → "+brl(keep)+" por semana\n2) adiar "+extra+" dia(s) → segue "+brl(Math.ceil((goal.val-s)/goal.weeks))+"\nJá deixei no 1. Quer o 2? Responde 2.";
+  }
+  if(/\d+\s*x\b|em\s*\d+\s*vezes|parcel/.test(t)&&/\d/.test(t)){
+    const nm=t.match(/(\d+)\s*x\b/)||t.match(/em\s*(\d+)\s*vezes/),v=readAmount(nm?t.replace(nm[0],""):t);
+    if(nm&&v!==null){const n=+nm[1];if(!Number.isFinite(v))return INVALID_AMOUNT;
+      if(!Number.isSafeInteger(n)||n<1)return "Informe quantas parcelas, tipo: tênis 300 em 3x no crédito";
+      const total=/(?:x|vezes)\s*de/.test(t)?v*n:v;if(!Number.isSafeInteger(Math.round(total*100)))return INVALID_AMOUNT;const c=(cat||["Compras"])[0];
+      ex.push({cat:c,v:total/n});
+      const nome=cap(txt.split(/\d/)[0].trim())||c;
+      return "✅ "+nome+" "+brl(total)+" · "+c+" · crédito\n💳 "+n+"x de "+brl(total/n)+". Eu anoto e te lembro todo mês.";}
+  }
+  if(/comprar|viagem|viajar|juntar/.test(t)||(/semana que vem|m[eê]s que vem|daqui/.test(t)&&/\d/.test(t))){
+    const t2=t.replace(/\d+\s*(semana|m[eê]s|mes|dia)\w*\b(?!\s*que)/,"");
+    const val=readAmount(t2);
+    if(val===null)return "Quanto custa? 💸 Tipo: quero comprar uma bolsa de 600 em 1 mês";
+    if(!Number.isFinite(val))return INVALID_AMOUNT;
+    let weeks=4;
+    const wm=t.match(/(\d+)\s*(semana|m[eê]s|mes|dia)\w*\b(?!\s*que)/);
+    if(wm){const k=+wm[1];weeks=/semana/.test(wm[2])?k:/dia/.test(wm[2])?k/7:k*4.3;}else if(/semana que vem/.test(t))weeks=1;
+    weeks=Math.max(1,Math.round(weeks));
+    goal={val,weeks};
+    let left=Math.ceil(val/weeks),out="🎯 Meta de "+brl(val)+" em "+weeks+" semana(s)\nDá "+brl(left)+" por semana.\nComo fazer:\n",n=0;
+    r.filter(x=>FLEX.includes(x[0])).forEach(x=>{const cut=Math.floor(x[1]/4*.35);if(cut>=5&&left>0&&n<2){const c=Math.min(cut,left);left-=c;n++;out+="• corta "+brl(c)+" de "+x[0]+"\n";}});
+    if(left>0.5)out+="• guarda mais "+brl(left)+" da sua renda\n";
+    return out+"(com os gastos de exemplo)";
+  }
+  if(/onde|mais gastei|ranking/.test(t)){let o="🏆 Pra onde foi seu dinheiro:\n";r.slice(0,3).forEach((x,i)=>o+=(i+1)+". "+x[0]+": "+brl(x[1])+" ("+Math.round(x[1]/tot*100)+"%)\n");return o+"Total: "+brl(tot);}
+  if(/relat|resumo|semana|m[eê]s/.test(t))return "📊 Este mês: "+brl(tot)+" em "+ex.length+" gastos\nTop: "+r.slice(0,3).map(x=>x[0]+" "+brl(x[1])).join(" · ");
+  if(/menos|dica|economiz/.test(t)){const f=r.find(x=>FLEX.includes(x[0]));return f?"💡 "+f[0]+" é seu maior gasto opcional: "+brl(f[1])+". Bora pôr um limite por semana?":"Ainda é cedo pra dicas. Continua anotando que eu te falo 😉";}
+  if(cat&&/quanto|gast/.test(t)&&!/\d/.test(t)){const v=sum(ex.filter(e=>e.cat===cat[0]));return "📊 "+cat[0]+": "+brl(v)+" em "+ex.filter(e=>e.cat===cat[0]).length+" gastos";}
+  const v=readAmount(txt);
+  if(v===null)return "Não entendi 😅 Tenta tipo: mercado 120 pix, ou: onde gastei mais?";
+  if(!Number.isFinite(v))return INVALID_AMOUNT;
+  const c=(cat||["Outros"])[0],p=(PAY.find(x=>x[1].test(t))||[null])[0];
+  const nome=cap(txt.split(/\d/)[0].trim())||c;
+  ex.push({cat:c,v});return "✅ "+nome+" "+brl(v)+(nome.toLowerCase()!==c.toLowerCase()?" · "+c:"")+(p?" · "+p.toLowerCase():"")+"\nNo mês: "+brl(sum(ex));
+}
+function say(txt){add("me",txt);const ty=typingBubble(log);log.scrollTop=log.scrollHeight;setTimeout(()=>{ty.remove();add("bot",answer(txt));},reduce?0:750);}
+$("#form").addEventListener("submit",e=>{e.preventDefault();stopDemo();const v=$("#txt").value.trim();if(!v)return;$("#txt").value="";say(v);});
+
+/* Conversa automática no simulador: digita sozinha até a pessoa interagir */
+let demoOn=!reduce;
+function stopDemo(clearInput=true){if(!demoOn)return;demoOn=false;if(clearInput)$("#txt").value="";$("#txt").placeholder="Pergunte ou anote: mercado 120 pix";}
+async function typeInto(input,text){input.value="";for(const ch of text){if(!demoOn)return false;input.value+=ch;await sleep(38+Math.random()*40);}return demoOn;}
+async function runDemo(){
+  const script=["sorvete 40 débito","Quero comprar uma bolsa de 600 em 1 mês","Não aguentei, comi um lanche de 40"];
+  await sleep(1200);
+  for(const m of script){
+    if(!demoOn)return;
+    if(!await typeInto($("#txt"),m))return;
+    await sleep(350);if(!demoOn)return;
+    $("#txt").value="";say(m);await sleep(3200);
+  }
+  stopDemo();
+}
+["#txt","#prompts"].forEach(s=>["pointerdown","focusin"].forEach(event=>$(s).addEventListener(event,()=>stopDemo())));
+$("#txt").addEventListener("keydown",()=>stopDemo());
+$("#txt").addEventListener("input",()=>stopDemo(false));
+["Quero comprar uma bolsa de 600 em 1 mês","Não aguentei, comi um lanche de 40","tênis 300 em 3x no crédito","Onde gastei mais este mês?","O que é essencial e o que é opcional?","sorvete 40 débito"].forEach(p=>{const b=document.createElement("button");b.type="button";b.textContent=p;b.onclick=()=>say(p);$("#prompts").appendChild(b);});
+add("bot","Oi! 👋 Já tenho uns gastos de exemplo anotados. Escolhe uma pergunta ou anota o seu.");
+
+/* Camadas */
+const L=[["Você","Você manda uma mensagem do jeito que falaria: “sorvete 40 débito” ou “quanto gastei com uber?”. Sem formulário e sem abrir arquivo."],["Entendimento","A IA lê a frase e separa valor, categoria, forma de pagamento e data. Se faltar o valor, ela pergunta em vez de chutar."],["Cálculo","O sistema grava e soma. Totais, rankings e comparações saem de cálculo exato, nunca de estimativa da IA."],["Relatório e dicas","Você recebe o resumo, o ranking de categorias e dicas com base no que gastou de verdade."]];
+let layerAuto=!reduce,layerIdx=0,layerTimer=null;
+function layer(i){layerIdx=i;[...$("#layerList").children].forEach((b,j)=>b.setAttribute("aria-selected",i===j));$("#layerInfo").innerHTML="";const h=document.createElement("h3");h.textContent=L[i][0];const p=document.createElement("p");p.textContent=L[i][1];$("#layerInfo").append(h,p);
+  if(layerAuto){const bar=document.createElement("div");bar.className="autobar";bar.innerHTML="<i></i>";$("#layerInfo").appendChild(bar);requestAnimationFrame(()=>bar.classList.add("run"));}}
+function layerManual(i){layerAuto=false;clearInterval(layerTimer);layer(i);}
+L.forEach((l,i)=>{const b=document.createElement("button");b.type="button";b.role="tab";b.textContent=l[0];b.onclick=()=>layerManual(i);b.onmouseenter=()=>layerManual(i);$("#layerList").appendChild(b);});layer(0);
+
+/* Etapas */
+const T=[["Primeira conversa","Ele pergunta o seu objetivo (juntar pra algo, guardar todo mês, aprender a guardar sem abrir mão do lazer, ou só ver pra onde vai o dinheiro) e de onde vem seu dinheiro (salário, mesada, bolsa). Leva 30 segundos e dá pra pular."],["Anotar","Mande um gasto ou vários na mesma mensagem: “mercado 120 pix, uber 18 crédito”. A resposta confirma o que foi entendido."],["Corrigir","Errou a categoria? Responda “corrige lazer”. Quer voltar atrás? “desfazer” apaga o último gasto."],["Metas","Defina um limite por categoria, como “meta mercado 800”. O aviso chega quando você passa de 80% e quando estoura."],["Relatórios","Peça “hoje”, “semana”, “mês” ou uma pergunta como “quanto gastei com delivery?” sempre que quiser."],["Dicas","Sugestões simples para gastar menos, baseadas nos seus números. Nunca recomendamos investimentos."],["Essencial ou opcional","Sem configurar nada: aluguel, luz, água, mercado e remédio contam como essenciais; delivery, streaming e lazer, como opcionais. Se errarmos, você corrige com uma frase e o serviço aprende."],["Planejar compra","Diga “quero comprar uma bolsa em um mês” ou “viagem daqui 3 meses”. O serviço calcula quanto juntar por semana ou por mês e, pelo seu histórico, mostra onde cortar (como delivery) e quanto separar."],["Fixos e entradas","Conta que se repete? Diga “netflix 40 todo mês” ou “aluguel 1200 todo dia 5” e ele anota sozinho todo mês. Entrou dinheiro? “recebi 200 do freela” e o resumo mostra quanto entrou, saiu e sobrou."],["Parcelas","Comprou parcelado? Diga “tênis 300 em 3x no crédito”. Cada parcela entra no mês em que cai, e você recebe um lembrete no dia. Para ver o que falta: “parcelas”."],["Saiu do plano","Gastou o que não devia? Conte: “não aguentei, comi um lanche de 40, o que acontece com o plano?”. Ele mostra como recuperar: guardar um pouco mais por semana ou adiar alguns dias."],["Aprende com você","Corrigiu uma categoria uma vez, ele lembra nas próximas. O plano usa os seus próprios gastos e fica mais certeiro com 2 a 4 semanas de uso."],["Foto e áudio","Mande a foto do comprovante ou da nota, ou grave um áudio: ele entende e anota igual."],["Hábito","Relatório do dia às 21h (se quiser), resumo de domingo, sequência de dias anotando, desafios de 7 dias e limites sugeridos pelo seu próprio histórico."],["Privacidade","No modo padrão, nada de ligar ao banco, senha ou cartão. “Apagar meus dados” exclui tudo."]];
+function tab(i){[...$("#tabs").children].forEach((b,j)=>b.setAttribute("aria-selected",i===j));$("#tabBody").textContent=T[i][1];}
+let tabAuto=!reduce,tabIdx=0,tabTimer=null;
+T.forEach((t,i)=>{const b=document.createElement("button");b.type="button";b.role="tab";b.textContent=t[0];b.onclick=()=>{tabAuto=false;clearInterval(tabTimer);tab(i);};$("#tabs").appendChild(b);});tab(0);
+const tabOrig=tab;tab=i=>{tabIdx=i;tabOrig(i);const el=$("#tabBody");el.style.animation="none";el.offsetHeight;el.style.animation="";};
+
+/* Calculadora */
+const F=[["renda","Renda mensal",4500,1],["Mercado","Mercado",800],["Delivery","Delivery e restaurantes",350],["Transporte","Transporte",300],["Lazer","Lazer",200],["Compras","Compras",250],["Assinaturas","Assinaturas",120],["Outros","Outros",150]];
+const inp={};
+F.forEach(f=>{const l=document.createElement("label");if(f[3])l.className="full";l.textContent=f[1]+" (R$)";const i=document.createElement("input");i.type="number";i.inputMode="decimal";i.min="0";i.value=f[2];i.addEventListener("input",calc);l.appendChild(i);$("#fields").appendChild(l);inp[f[0]]=i;});
+function calc(){
+  const val=k=>Math.max(0,parseFloat(inp[k].value)||0),renda=val("renda");
+  const rows=F.slice(1).map(f=>[f[1],val(f[0]),f[0]]);
+  const tot=rows.reduce((a,r)=>a+r[1],0),flex=rows.filter(r=>FLEX.includes(r[2])).sort((a,b)=>b[1]-a[1])[0];
+  countTo($("#total"),tot);
+  $("#share").textContent=renda>0?"Isso é "+Math.round(tot/renda*100)+"% da sua renda. Sobram "+brl(renda-tot)+" por mês.":"Informe a renda para ver quanto sobra.";
+  const d=$("#dots");d.textContent="";
+  rows.forEach(r=>{const n=Math.round(r[1]/100);for(let i=0;i<n&&d.children.length<160;i++){const e=document.createElement("i");e.className=FLEX.includes(r[2])?"f":"n";e.style.animationDelay=Math.min(d.children.length*8,900)+"ms";d.appendChild(e);}});
+  $("#leak").textContent=flex&&flex[1]>0?"Maior gasto flexível: "+flex[0]+", com "+brl(flex[1])+" por mês. Reduzir 20% seria "+brl(flex[1]*.2)+" a mais por mês, ou "+brl(flex[1]*.2*12)+" por ano (exemplo).":"Preencha seus gastos para ver onde há espaço para economizar.";
+}
+function aff(){
+  const g=id=>Math.max(0,parseFloat(document.getElementById(id).value)||0);
+  const p=g("a-preco"),c=g("a-com")/100,n=g("a-n"),m=Math.max(1,g("a-m"));
+  const tot=p*c*n*m;
+  countTo(document.getElementById("a-total"),tot);
+  document.getElementById("a-txt").textContent="Com "+n+" indicados que ficam "+m+" meses, a comissão seria de "+brl(p*c)+" por indicado a cada mês.";
+}
+/* Números que "correm" até o valor novo */
+function countTo(el,to){
+  const from=el._v||0;el._v=to;
+  if(reduce||from===to){el.textContent=brl(to);return;}
+  const t0=performance.now(),dur=600;
+  cancelAnimationFrame(el._raf);
+  const step=t=>{const k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,3);el.textContent=brl(from+(to-from)*e);if(k<1)el._raf=requestAnimationFrame(step);};
+  el._raf=requestAnimationFrame(step);
+}
+["a-preco","a-com","a-n","a-m"].forEach(id=>document.getElementById(id).addEventListener("input",aff));aff();
+calc();
+
+/* Faixa de mensagens rolando (duplicada para o laço não ter emenda) */
+const MQ1=["sorvete 40 débito","apostila 89 pix","inscrição do concurso 150","mercado 230 débito, uber 19 crédito","tênis 300 em 3x no crédito","quero viajar em julho","quanto gastei com delivery?","almoço 32 no VR","conta de luz 143,80","onde eu to gastando mais?"];
+const MQ2=["✅ Sorvete R$ 40 · Alimentação","🎯 Bolsa de R$ 600 até 15/12","💳 3x de R$ 100","• corta R$ 24 de Delivery","Hoje: R$ 92","📅 Hoje caiu a parcela 2/3","⚖️ Essencial 62% · opcional 38%","Tranquilo, acontece 😅"];
+[["#mq1",MQ1],["#mq2",MQ2]].forEach(([id,arr])=>{const t=$(id);[...arr,...arr].forEach(s=>{const e=document.createElement("span");e.textContent=s;t.appendChild(e);});});
+
+/* Frase que se digita sozinha embaixo do título */
+(async()=>{
+  const el=$("#rot"),words=["sorvete 40 débito","quero juntar 150 pra inscrição do concurso","quero comprar uma bolsa semana que vem","tênis 300 em 3x no crédito","onde eu to gastando mais?","não aguentei, comi um lanche de 40"];
+  if(reduce)return;
+  for(let i=0;;i=(i+1)%words.length){
+    const w=words[i];
+    const hold=async()=>{while(paused)await sleep(300);};
+    await hold();
+    for(let k=el.textContent.length;k>0;k--){await hold();el.textContent=el.textContent.slice(0,-1);await sleep(18);}
+    for(const ch of w){await hold();el.textContent+=ch;await sleep(55);}
+    await sleep(2200);
+  }
+})();
+
+/* Seções entram suavemente ao rolar; conversas de exemplo se montam; abas e camadas giram quando visíveis */
+const revealSel="section h2, section p.sub, .pain p, .step, .trust>div, .calc, .layers, .tabs, .tab-body, details, .note";
+document.querySelectorAll(revealSel).forEach(el=>{el.classList.add("reveal");const sib=[...el.parentElement.children].indexOf(el);if(el.matches(".pain p,.step,.trust>div"))el.classList.add("d"+Math.min(3,sib));});
+async function playStory(step){
+  const msgs=[...step.querySelectorAll(".msg")];
+  // conversa que já ficou para trás (ex.: pulou pelo menu): aparece pronta, sem mexer no que está na tela
+  if(step.getBoundingClientRect().bottom<0){msgs.forEach(m=>m.classList.add("on"));return;}
+  for(const m of msgs){
+    if(m.classList.contains("bot")&&!reduce){const ty=typingBubble(step);m.before(ty);m.style.display="none";ty.classList.add("on");await sleep(800);ty.remove();m.style.display="";await sleep(20);}
+    m.classList.add("on");await sleep(500);
+  }
+}
+function startLoops(id){
+  if(id==="como"&&layerAuto&&!layerTimer){layerTimer=setInterval(()=>{if(layerAuto&&!paused)layer((layerIdx+1)%L.length);},4000);layer(layerIdx);}
+  if(id==="tabs"&&tabAuto&&!tabTimer){tabTimer=setInterval(()=>{if(tabAuto&&!paused)tab((tabIdx+1)%T.length);},5000);}
+}
+// Cada elemento "acorda" uma vez quando aparece na tela (ou quando a página já passou dele)
+const woke=new WeakSet();
+function wake(el){
+  if(woke.has(el))return;woke.add(el);
+  if(el.classList.contains("reveal"))el.classList.add("in");
+  if(el.classList.contains("step"))playStory(el);
+  if(el.id==="como"||el.id==="tabs")startLoops(el.id);
+  if(el.id==="calculadora"){$("#total")._v=0;$("#dots").classList.add("anim");calc();setTimeout(()=>$("#dots").classList.remove("anim"),1600);}
+  if(el.id==="afiliados"){$("#a-total")._v=0;aff();}
+}
+const watched=[...document.querySelectorAll(".reveal"),...["#como","#tabs","#calculadora","#afiliados"].map(s=>$(s))];
+if("IntersectionObserver" in window){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){wake(e.target);io.unobserve(e.target);}}),{threshold:.15,rootMargin:"0px 0px -40px 0px"});
+  watched.forEach(el=>io.observe(el));
+}
+// Garantia: ao rolar rápido ou pular pelo menu, tudo que já está na tela ou acima dela acorda
+let ticking=false;
+const sweep=()=>{ticking=false;watched.forEach(el=>{if(!woke.has(el)&&el.getBoundingClientRect().top<innerHeight*.9)wake(el);});};
+addEventListener("scroll",()=>{if(!ticking){ticking=true;setTimeout(sweep,60);}},{passive:true});
+addEventListener("resize",()=>setTimeout(sweep,60));
+sweep();
+const sweepTimer=setInterval(()=>{sweep();if(watched.every(el=>woke.has(el)))clearInterval(sweepTimer);},500);
+/* Links internos (menu, rodapé, logo): rola por JavaScript. Funciona também quando o arquivo é aberto
+   direto ou numa pré-visualização, onde o navegador às vezes bloqueia o pulo para "#secao". */
+document.addEventListener("click",e=>{
+  const a=e.target.closest('a[href^="#"]');
+  if(!a||a.classList.contains("cta")||e.defaultPrevented)return;
+  const id=a.getAttribute("href").slice(1);
+  const target=id?document.getElementById(id):document.body;
+  if(!target)return;
+  e.preventDefault();
+  const top=id?target.getBoundingClientRect().top+scrollY-70:0;  // desconta o topo fixo
+  scrollTo({top,behavior:reduceMotion?"auto":"smooth"});
+  try{history.replaceState(null,"",id?"#"+id:location.pathname);}catch(err){}
+});
+
+/* Botão de pausar: para tudo que se mexe ou troca sozinho */
+function setPaused(v){
+  paused=v;document.documentElement.classList.toggle("paused",v);
+  const b=$("#pause");b.setAttribute("aria-pressed",v);b.textContent=v?"▶ Retomar animações":"⏸ Pausar animações";
+  if(v){stopDemo();}
+  try{localStorage.setItem("zapcash-paused",v?"1":"0");}catch(e){}
+}
+$("#pause").addEventListener("click",()=>setPaused(!paused));
+try{if(localStorage.getItem("zapcash-paused")==="1")setPaused(true);}catch(e){}
+if(!paused)runDemo();
+
+/* Abertura da marca: marca como vista na sessão; toque pula. O CSS some com ela sozinho. */
+if(document.documentElement.classList.contains("intro")){
+  try{sessionStorage.setItem("zc-intro","1");}catch(e){}
+  $("#intro").addEventListener("click",()=>$("#intro").classList.add("out"));
+  setTimeout(()=>document.documentElement.classList.remove("intro"),2400);
+}
+
+/* História: o celular fica parado na tela e dá uma volta inteira entre um passo e outro; a tela e a cor
+   trocam enquanto ele está de costas. Com movimento reduzido ou pausado, só troca a tela. */
+(()=>{
+  const sec=$("#historia"),phone=$("#phone3d");
+  const steps=[...sec.querySelectorAll(".s3-step")],screens=[...sec.querySelectorAll(".s3-screen")];
+  const COLORS=["#F04E0F","#1B1411","#1E9E5A","#6D3FD8"],N=steps.length;
+  const ss=(a,b,x)=>{const t=Math.min(1,Math.max(0,(x-a)/(b-a)));return t*t*(3-2*t);};
+  let cur=-1,queued=false;
+  function setActive(i){
+    if(i===cur)return;cur=i;
+    screens.forEach((s,j)=>s.classList.toggle("on",j===i));
+    steps.forEach((s,j)=>s.classList.toggle("on",j===i));
+    sec.style.setProperty("--pc",COLORS[i%COLORS.length]);
+  }
+  function update(){
+    queued=false;
+    const r=steps[0].getBoundingClientRect(),h=r.height||1;
+    const x=Math.min(N-1,Math.max(0,(innerHeight*.5-r.top-h*.5)/h));
+    if(reduceMotion||paused){setActive(Math.round(x));phone.style.transform="";return;}
+    const k=Math.floor(x),g=ss(.3,.7,x-k),lift=Math.sin(g*Math.PI);
+    setActive(Math.min(N-1,k+(g>=.5?1:0)));
+    phone.style.transform=`translateY(${-28*lift}px) rotateX(${8-4*lift}deg) rotateY(${-16+(k+g)*360}deg) rotateZ(${-3+6*lift}deg)`;
+  }
+  const ask=()=>{if(!queued){queued=true;requestAnimationFrame(update);}};
+  addEventListener("scroll",ask,{passive:true});addEventListener("resize",ask);
+  $("#pause").addEventListener("click",ask);
+  update();
+})();
+
+/* Barra flutuante: aparece depois do topo da página e some perto do rodapé */
+(()=>{
+  const d=$("#dock"),hero=$("#testar"),ft=document.querySelector("footer");
+  const upd=()=>d.classList.toggle("show",hero.getBoundingClientRect().bottom<0&&ft.getBoundingClientRect().top>innerHeight-40);
+  addEventListener("scroll",upd,{passive:true});upd();
+})();
+</script>
+</body>
+</html>
